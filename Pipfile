@@ -1,0 +1,42 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+mistune = "==2.0.5"
+requests = "*"
+click = "*"
+rich = "*"
+aqt = "*"
+anki = "*"
+pyqt6 = "*"
+pyqt6-webengine = "*"
+pillow = "*"
+mypy = "*"
+isort = "*"
+black = "*"
+
+[dev-packages]
+black = "*"
+build = "*"
+bump2version = "*"
+coverage = "*"
+flake8 = "*"
+flake8-bugbear = "*"
+ipython = "*"
+isort = "*"
+mypy = "*"
+pre-commit = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-mock = "*"
+tox = "*"
+types-click = "*"
+types-requests = "*"
+#pytest-freezegun = "*"  # time freezer
+#sphinx = "*"
+#sphinx-rtd-theme = "*"
+
+[requires]
+python_version = "3.11"
