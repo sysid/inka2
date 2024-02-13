@@ -1,0 +1,44 @@
+[tool.pdm]
+[[tool.pdm.source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "black",
+    "build",
+    "bump2version",
+    "coverage",
+    "flake8",
+    "flake8-bugbear",
+    "ipython",
+    "isort",
+    "mypy",
+    "pre-commit",
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+    "tox",
+    "types-click",
+    "types-requests",
+]
+
+[project]
+# PEP 621 project metadata
+# See https://www.python.org/dev/peps/pep-0621/
+requires-python = ">=3.12"
+dependencies = [
+    "mistune==2.0.5",
+    "requests",
+    "click",
+    "rich",
+    "aqt",
+    "anki",
+    "pyqt6",
+    "pyqt6-webengine",
+    "pillow",
+    "mypy",
+    "isort",
+    "black",
+]
