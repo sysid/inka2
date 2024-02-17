@@ -119,7 +119,9 @@ class AnkiApi:
         for field, value in note.get_html_fields(self._cfg).items():
             if field in anki_note:
                 anki_note[field] = value
-        anki_note.flush()  # TODO: deprecated warning:col.update_notes()
+        # anki_note.flush()  # TODO: deprecated warning:col.update_notes()
+        # Use the collection's update_note method instead of the note's flush method
+        self._collection.update_note(anki_note)
 
     def fetch_note_types(self) -> List[str]:
         """Get list of names of the existing note types"""

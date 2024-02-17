@@ -1,3 +1,7 @@
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
 [tool.pdm]
 [[tool.pdm.source]]
 url = "https://pypi.org/simple"
@@ -22,11 +26,34 @@ dev = [
     "tox",
     "types-click",
     "types-requests",
+    "-e file:///${PROJECT_ROOT}/#egg=inka",
 ]
 
 [project]
 # PEP 621 project metadata
 # See https://www.python.org/dev/peps/pep-0621/
+name = "inka"
+version = "2.0.0"
+description = "Command-line tool for adding flashcards from Markdown files to Anki"
+readme = "README.md"
+authors = [
+    {name="Kirill Salnikov", email="salnikov.k54@gmail.com"},
+    {name = "sysid", email = "sysid@gmx.de"},
+]
+classifiers=[
+    "Development Status :: 5 - Production/Stable",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Education",
+    "Topic :: Education :: Computer Aided Instruction (CAI)",
+    "Topic :: Text Processing :: Markup :: Markdown",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3 :: Only",
+]
+license = {text = "GPLv3"}
+
 requires-python = ">=3.12"
 dependencies = [
     "mistune==2.0.5",
@@ -42,3 +69,79 @@ dependencies = [
     "isort",
     "black",
 ]
+
+[project.scripts]
+inka = "inka.cli:cli"
+
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: marks tests as integration tests",
+]
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 88
+
+[tool.mypy]
+ignore_missing_imports = false
+namespace_packages = true
+
+[tool.coverage.run]
+source = ["src/notevault"]
+omit = [
+    "tests/*",
+    "**/__main__.py",
+    "**/.venv/*",
+    "**/site-packages/*",
+    "examples/*",
+]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 70
+
+[tool.bumpversion]
+current_version = "2.0.0"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+serialize = ["{major}.{minor}.{patch}"]
+search = "{current_version}"
+replace = "{new_version}"
+regex = false
+ignore_missing_version = false
+tag = true
+sign_tags = false
+tag_name = "v{new_version}"
+tag_message = "Bump version: {current_version} → {new_version}"
+allow_dirty = false
+commit = true
+message = "Bump version: {current_version} → {new_version}"
+commit_args = ""
+
+[tool.bumpversion.file_patterns]
+"my_package/__init__.py" = [
+    {search = "__version__ = '{current_version}'", replace = "__version__ = '{new_version}'"},
+]
+#"README.md" = [
+#    {search = "Current version: {current_version}", replace = "Current version: {new_version}"},
+#]
+"VERSION" = [
+    {search = "{current_version}", replace = "{new_version}"},
+]
+"pyproject.toml" = [
+    {search = "version = {current_version}", replace = "version = {new_version}"},
+]
+
+[[tool.bumpversion.files]]
+filename = "VERSION"
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+
+[[tool.bumpversion.files]]
+filename = "src/inka/__init__.py"

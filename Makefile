@@ -1,118 +1,176 @@
 .DEFAULT_GOAL := help
+MAKEFLAGS += --no-print-directory
 
 # You can set these variables from the command line, and also from the environment for the first two.
-PREFIX ?= /usr/local
-BINPREFIX ?= "$(PREFIX)/bin"
-
+BUILDDIR      = build
+MAKE          = make
 VERSION       = $(shell cat VERSION)
+IMAGE_NAME = inka
 
-SHELL := bash
-.ONESHELL:
-.SHELLFLAGS := -eu -o pipefail -c
-MAKEFLAGS += --warn-undefined-variables
-MAKEFLAGS += --no-builtin-rules
-#MAKEFLAGS += --no-print-directory
-
-MAKEFILE_PWD := $(CURDIR)
-WORKTREE_ROOT := $(shell git rev-parse --show-toplevel 2> /dev/null)
-
+app_root = $(PROJ_DIR)
 app_root ?= .
-pkg_src =  $(app_root)/src
+pkg_src =  $(app_root)/src/inka
 tests_src = $(app_root)/tests
 
-# define files
-MANS = $(wildcard ./*.md)
-MAN_HTML = $(MANS:.md=.html)
-MAN_PAGES = $(MANS:.md=.1)
-# avoid circular targets
-MAN_BINS = $(filter-out ./tw-extras.md, $(MANS))
-
 ################################################################################
-# Admin \
-ADMIN::  ## ####################################################################
+# Developing \
+DEVELOP: ## ############################################################
 
-.PHONY: dummy
-dummy:  ## dummy
-	:
+.PHONY: update
+update:  ## update
+	python src/inka/main.py
+
+.PHONY: create
+create: init  ## create
+	python src/inka/main.py
+
+.PHONY: init
+init:  ## init
+	@rm -f *.db
+
+.PHONY: query-general
+query-general:  ## query-general
+	@sqlite-utils query test_daily.db "\
+	SELECT \
+	    document.*, \
+	    general.* \
+	FROM document \
+	LEFT JOIN general ON document.name = general.document_name;" | jq
+
+.PHONY: query-meeting
+query-meeting:  ## query-meeting
+	@sqlite-utils query test_daily.db "\
+	SELECT \
+	    document.*, \
+	    meeting.* \
+	FROM document \
+	LEFT JOIN meeting ON document.name = meeting.document_name;" | jq
+
+.PHONY: query-list
+query-list:  ## query-list
+	@sqlite-utils query test_daily.db "\
+	SELECT \
+	    document.*, \
+	    list.* \
+	FROM document \
+	LEFT JOIN list ON document.name = list.document_name;" | jq
+
+.PHONY: query-daily
+query-daily:  ## query-daily
+	@sqlite-utils query test_daily.db "\
+	SELECT \
+	    document.*, \
+	    general.*, \
+	    meeting.* \
+	FROM document \
+	LEFT JOIN general ON document.name = general.document_name \
+	LEFT JOIN meeting ON document.name = meeting.document_name;" | jq
+
+.PHONY: query-experiment
+query-experiment:  ## query-experiment
+	@sqlite-utils query test_daily.db "\
+	SELECT \
+	    document.*, \
+	    general.*, \
+	    meeting.* \
+	FROM document \
+	LEFT JOIN general ON document.name = general.document_name \
+	LEFT JOIN list ON document.name = list.document_name \
+	LEFT JOIN meeting ON document.name = meeting.document_name;" | jq
+
+.PHONY: schema
+schema:  ## schema
+	@sqlite-utils schema test_daily.db
+
+.PHONY: test
+test: init  ## run all tests
+	RUN_ENV=testing python -m pytest --cov-report=xml --cov-report term --cov=$(pkg_src) $(tests_src)
+
 
 ################################################################################
 # Building, Deploying \
-BUILDING:  ## ##################################################################
-.PHONY: build
-build: clean format isort  ## format and build
-	@echo "building"
-	python -m build
+BUILDING:  ## ############################################################
 
-.PHONY: upload
-upload:  ## upload to PyPi
-	@echo "upload"
-	twine upload --verbose dist/*
+.PHONY: install
+install:  ## install
+	pipx install -e .
+
+.PHONY: uninstall
+uninstall:  ## uninstall
+	pipx uninstall inka
 
 .PHONY: bump-major
 bump-major:  ## bump-major, tag and push
-	bumpversion --commit --tag major
+	bump-my-version bump --commit --tag major
+	git push
 	git push --tags
+	@$(MAKE) create-release
 
 .PHONY: bump-minor
 bump-minor:  ## bump-minor, tag and push
-	bumpversion --commit --tag minor
+	bump-my-version bump --commit --tag minor
+	git push
 	git push --tags
+	@$(MAKE) create-release
 
 .PHONY: bump-patch
 bump-patch:  ## bump-patch, tag and push
-	bumpversion --commit --tag patch
+	bump-my-version bump --commit --tag patch
+	git push
 	git push --tags
+	@$(MAKE) create-release
 
-################################################################################
-# Testing \
-TESTING:  ## ###################################################################
-.PHONY: coverage
-coverage:  ## Run tests with coverage
-	python -m coverage erase
-	python -m coverage run --include=$(pkg_src)/* -m pytest -ra
-	python -m coverage report -m
+.PHONY: create-release
+create-release:  ## create a release on GitHub via the gh cli
+	@if command -v gh version &>/dev/null; then \
+		echo "Creating GitHub release for v$(VERSION)"; \
+		gh release create "v$(VERSION)" --generate-notes; \
+	else \
+		echo "You do not have the github-cli installed. Please create release from the repo manually."; \
+		exit 1; \
+	fi
 
-.PHONY: test
-test:  ## run tests
-	PYTHONPATH=src python -m pytest -ra --junitxml=report.xml --cov-config=setup.cfg --cov-report=xml --cov-report term --cov=$(pkg_src) tests/
-
-.PHONY: tox
-tox:   ## Run tox
-	tox
 
 ################################################################################
 # Code Quality \
-QUALITY:  ## ###################################################################
-.PHONY: style
-style: isort format  ## perform code style format (black, isort)
+QUALITY:  ## ############################################################
 
 .PHONY: format
-format:  ## perform black formatting
-	black $(pkg_src) tests
+format:  ## perform ruff formatting
+	@ruff format $(pkg_src) $(tests_src)
 
-.PHONY: isort
-isort:  ## apply import sort ordering
-	isort . --profile black
+.PHONY: format-check
+format-check:  ## perform black formatting
+	@ruff format --check $(pkg_src) $(tests_src)
+
+.PHONY: sort-imports
+sort-imports:  ## apply import sort ordering
+	@isort $(pkg_src) $(tests_src) --profile black
+
+.PHONY: style
+style: sort-imports format  ## perform code style format (black, isort)
 
 .PHONY: lint
-lint: flake8 mypy ## lint code with all static code checks
-
-.PHONY: flake8
-flake8:  ## check style with flake8
-	@flake8 $(pkg_src)
+lint:  ## check style with ruff
+	@ruff $(pkg_src)
 
 .PHONY: mypy
 mypy:  ## check type hint annotations
-	# keep config in setup.cfg for integration with PyCharm
-	mypy --config-file setup.cfg $(pkg_src)
+	#@mypy --config-file pyproject.toml $(pkg_src)
+	@mypy --config-file pyproject.toml --install-types --non-interactive $(pkg_src)
+
+
+.PHONY: bandit
+bandit:  ## bandit
+	@bandit --skip B101 -r -lll $(pkg_src)
+	@bandit --skip B101 -r -lll $(pkg_src) -f html -o bandit-report.html
 
 ################################################################################
 # Clean \
-CLEAN:  ## #####################################################################
+CLEAN:  ## ############################################################
 
 .PHONY: clean
-clean:  ## clean
-	@echo "Cleaning
+clean: clean-build clean-pyc  ## remove all build, test, coverage and Python artifacts
 
 .PHONY: clean-build
 clean-build: ## remove build artifacts
@@ -132,37 +190,18 @@ clean-pyc: ## remove Python file artifacts
 
 ################################################################################
 # Misc \
-MISC:  ## ######################################################################
-
+MISC:  ## ############################################################
 define PRINT_HELP_PYSCRIPT
 import re, sys
 
 for line in sys.stdin:
-	match = re.match(r'^([%a-zA-Z0-9_-]+):.*?## (.*)$$', line)
+	match = re.match(r'^([a-zA-Z0-9_-]+):.*?## (.*)$$', line)
 	if match:
 		target, help = match.groups()
-		if target != "dummy":
-			print("\033[36m%-20s\033[0m %s" % (target, help))
+		print("\033[36m%-20s\033[0m %s" % (target, help))
 endef
 export PRINT_HELP_PYSCRIPT
 
 .PHONY: help
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
-
-debug:  ## debug
-	@echo "-D- CODE_DIR: $(CODE_DIR)"
-
-
-.PHONY: list
-list: *  ## list
-	@echo $^
-
-.PHONY: list2
-%: %.md  ## list2
-	@echo $^
-
-
-%-plan:  ## call with: make <whatever>-plan
-	@echo $@ : $*
-	@echo $@ : $^
