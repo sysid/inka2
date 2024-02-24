@@ -1,6 +1,7 @@
 from click.testing import CliRunner
 
 from inka.cli import cli, get_notes_from_file
+from inka.environment import ROOT_DIR
 
 
 def test_hello():
@@ -12,5 +13,5 @@ def test_hello():
 
 
 def test_get_notes_from_file():
-    notes = get_notes_from_file('./tests/resources/test_inka_data.md')
+    notes = get_notes_from_file(f'{ROOT_DIR}/./tests/resources/test_inka_data.md')
     _ = None

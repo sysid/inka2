@@ -7,14 +7,11 @@ from pydantic_settings import BaseSettings
 ROOT_DIR = Path(__file__).parent.parent.parent.absolute()
 
 SKIP_WORDS = ("date", "datetime", "time", "timedelta", "list", "int")
-# TODO: verfy yaml schema to not include these words
 
 
 class Environment(BaseSettings, extra="allow"):
     run_env: str = "local"
     log_level: str = "WARNING"
-    # notevault_doc_schema_path: str = f"{ROOT_DIR}/schemas/daily.yaml"
-    notevault_doc_schema_path: str
 
     def __init__(self, **values):
         super().__init__(**values)
@@ -34,4 +31,4 @@ except ValidationError as e:
     sys.exit(1)
 
 if __name__ == '__main__':
-    config = Environment
+    config = Environment()
