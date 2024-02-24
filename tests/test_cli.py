@@ -12,5 +12,5 @@ def test_hello():
 
 
 def test_get_notes_from_file():
-    notes = get_notes_from_file('/Users/Q187392/dev/s/forked/inka/tests/resources/test_inka_data.md')
+    notes = get_notes_from_file('./tests/resources/test_inka_data.md')
     _ = None

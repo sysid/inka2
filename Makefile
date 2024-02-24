@@ -26,45 +26,17 @@ create: init  ## create
 
 .PHONY: init
 init:  ## init
+	pkill anki
 	@rm -f *.db
+	@rm -fr '/Users/Q187392/Library/Application Support/Anki2/User 1'
+	@rm -fr './tests/resources/anki_data/User 1'
+	rm -fr ~/xxx
+	mkdir -p ~/xxx
 
-.PHONY: query-general
-query-general:  ## query-general
-	@sqlite-utils query test_daily.db "\
-	SELECT \
-	    document.*, \
-	    general.* \
-	FROM document \
-	LEFT JOIN general ON document.name = general.document_name;" | jq
-
-.PHONY: query-meeting
-query-meeting:  ## query-meeting
-	@sqlite-utils query test_daily.db "\
-	SELECT \
-	    document.*, \
-	    meeting.* \
-	FROM document \
-	LEFT JOIN meeting ON document.name = meeting.document_name;" | jq
-
-.PHONY: query-list
-query-list:  ## query-list
-	@sqlite-utils query test_daily.db "\
-	SELECT \
-	    document.*, \
-	    list.* \
-	FROM document \
-	LEFT JOIN list ON document.name = list.document_name;" | jq
-
-.PHONY: query-daily
-query-daily:  ## query-daily
-	@sqlite-utils query test_daily.db "\
-	SELECT \
-	    document.*, \
-	    general.*, \
-	    meeting.* \
-	FROM document \
-	LEFT JOIN general ON document.name = general.document_name \
-	LEFT JOIN meeting ON document.name = meeting.document_name;" | jq
+.PHONY: anki
+anki:  ## anki
+	pkill anki
+	open /Applications/Anki.app --args -b $(PROJ_DIR)/tests/resources/anki_data
 
 .PHONY: query-experiment
 query-experiment:  ## query-experiment
