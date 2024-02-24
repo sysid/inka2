@@ -2,9 +2,9 @@ import os
 
 import pytest
 
-from inka.models import img_handler
-from inka.models.notes.basic_note import BasicNote
-from inka.models.notes.cloze_note import ClozeNote
+from inka2.models import img_handler
+from inka2.models.notes.basic_note import BasicNote
+from inka2.models.notes.cloze_note import ClozeNote
 
 
 def test_fetch_image_links_if_cards_do_not_have_images():

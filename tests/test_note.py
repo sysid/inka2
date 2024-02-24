@@ -1,6 +1,6 @@
 import pytest
 
-from inka.models.notes.note import Note
+from inka2.models.notes.note import Note
 
 create_search_anki_query_test_cases = {
     # backward slashes

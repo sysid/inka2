@@ -2,7 +2,7 @@ from typing import Optional
 
 from rich.console import Console
 
-from inka.models.notes.note import Note
+from inka2.models.notes.note import Note
 
 CONSOLE = Console()
 

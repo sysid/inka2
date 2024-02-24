@@ -1,6 +1,6 @@
 from typing import Optional
 
-from inka.models.notes.note import Note
+from inka2.models.notes.note import Note
 
 
 class AnkiApiError(Exception):

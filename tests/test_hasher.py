@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from inka.models.hasher import Hasher
+from inka2.models.hasher import Hasher
 
 
 @pytest.fixture

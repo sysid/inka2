@@ -3,7 +3,7 @@ import os
 
 import pytest
 
-from inka.models.config import Config
+from inka2.models.config import Config
 
 
 @pytest.fixture

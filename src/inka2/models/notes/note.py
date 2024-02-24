@@ -3,7 +3,7 @@ from typing import Any, Callable, Dict, Iterable, List, Optional
 
 from rich.table import Table
 
-from inka.models.config import Config
+from inka2.models.config import Config
 
 
 class Note(ABC):

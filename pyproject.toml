@@ -5,7 +5,7 @@ build-backend = "pdm.backend"
 [project]
 # PEP 621 project metadata
 # See https://www.python.org/dev/peps/pep-0621/
-name = "inka"
+name = "inka2"
 version = "2.1.0"
 description = "Command-line tool for adding flashcards from Markdown files to Anki"
 readme = "README.md"
@@ -45,7 +45,7 @@ dependencies = [
 ]
 
 [project.scripts]
-inka = "inka.cli:cli"
+inka2 = "inka2.cli:cli"
 
 
 [tool.pytest.ini_options]
@@ -65,7 +65,7 @@ ignore_missing_imports = false
 namespace_packages = true
 
 [tool.coverage.run]
-source = ["src/notevault"]
+source = ["src/inka2"]
 omit = [
     "tests/*",
     "**/__main__.py",
@@ -118,7 +118,7 @@ filename = "VERSION"
 filename = "pyproject.toml"
 
 [[tool.bumpversion.files]]
-filename = "src/inka/__init__.py"
+filename = "src/inka2/__init__.py"
 
 [tool.pdm]
 [[tool.pdm.source]]
@@ -141,6 +141,4 @@ dev = [
     "tox",
     "types-click",
     "types-requests",
-    "-e file:///${PROJECT_ROOT}/#egg=inka",
 ]
-

@@ -6,10 +6,10 @@ from unittest.mock import MagicMock
 import pytest
 from PIL import Image as Img
 
-from inka.models.anki_api import AnkiApi
-from inka.models.anki_media import AnkiMedia
-from inka.models.config import Config
-from inka.models.parser import Parser
+from inka2.models.anki_api import AnkiApi
+from inka2.models.anki_media import AnkiMedia
+from inka2.models.config import Config
+from inka2.models.parser import Parser
 
 DEFAULT_ANKI_FOLDERS = {
     "win32": r"~\AppData\Roaming\Anki2",

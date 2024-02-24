@@ -4,11 +4,11 @@ from typing import List, Union
 
 import pytest
 
-from inka.models.notes.basic_note import BasicNote
-from inka.models.notes.cloze_note import ClozeNote
-from inka.models.notes.note import Note
-from inka.models.parser import Parser
-from inka.models.writer import Writer
+from inka2.models.notes.basic_note import BasicNote
+from inka2.models.notes.cloze_note import ClozeNote
+from inka2.models.notes.note import Note
+from inka2.models.parser import Parser
+from inka2.models.writer import Writer
 
 
 @pytest.fixture

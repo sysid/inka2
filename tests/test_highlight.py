@@ -2,9 +2,9 @@ import pytest
 import requests
 from requests import HTTPError
 
-from inka.models import highlighter
-from inka.models.highlighter import BASE_URL
-from inka.models.notes.note import Note
+from inka2.models import highlighter
+from inka2.models.highlighter import BASE_URL
+from inka2.models.notes.note import Note
 
 
 @pytest.fixture

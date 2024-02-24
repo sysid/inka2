@@ -1,8 +1,8 @@
 import pytest
 
-from inka.models import converter
-from inka.models.notes.basic_note import BasicNote
-from inka.models.notes.cloze_note import ClozeNote
+from inka2.models import converter
+from inka2.models.notes.basic_note import BasicNote
+from inka2.models.notes.cloze_note import ClozeNote
 
 
 @pytest.fixture
@@ -348,8 +348,12 @@ def test_convert_md_to_html(basic_note, test_input, expected):
 
 
 def test_convert_md_to_html_no_html_escaping(basic_note):
-    test_input = '''<span style="font-size: 9pt;">This text will be 9pt in size.</span>'''
-    expected = '''<p><span style="font-size: 9pt;">This text will be 9pt in size.</span></p>'''
+    test_input = (
+        """<span style="font-size: 9pt;">This text will be 9pt in size.</span>"""
+    )
+    expected = (
+        """<p><span style="font-size: 9pt;">This text will be 9pt in size.</span></p>"""
+    )
     html = converter._convert_md_to_html(test_input)
     assert html == expected
 

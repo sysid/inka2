@@ -5,11 +5,11 @@ MAKEFLAGS += --no-print-directory
 BUILDDIR      = build
 MAKE          = make
 VERSION       = $(shell cat VERSION)
-IMAGE_NAME = inka
+IMAGE_NAME = inka2
 
 app_root = $(PROJ_DIR)
 app_root ?= .
-pkg_src =  $(app_root)/src/inka
+pkg_src =  $(app_root)/src/inka2
 tests_src = $(app_root)/tests
 
 ################################################################################
@@ -18,11 +18,11 @@ DEVELOP: ## ############################################################
 
 .PHONY: update
 update:  ## update
-	python src/inka/main.py
+	python src/inka2/main.py
 
 .PHONY: create
 create: init  ## create
-	python src/inka/main.py
+	python src/inka2/main.py
 
 .PHONY: init
 init:  ## init
@@ -72,7 +72,7 @@ install:  ## install
 
 .PHONY: uninstall
 uninstall:  ## uninstall
-	pipx uninstall inka
+	pipx uninstall inka2
 
 .PHONY: bump-major
 bump-major:  ## bump-major, tag and push
