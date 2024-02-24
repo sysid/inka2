@@ -30,5 +30,5 @@ except ValidationError as e:
     print("Make sure all required environment variables are set.")
     sys.exit(1)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     config = Environment()

@@ -54,9 +54,12 @@ query-experiment:  ## query-experiment
 schema:  ## schema
 	@sqlite-utils schema test_daily.db
 
+.PHONY: test-unit
+test-unit:  ## run all tests except "integration" marked
+	RUN_ENV=local python -m pytest -m "not (integration or e2e)" --cov-config=pyproject.toml --cov-report=html --cov-report=term --cov=$(pkg_src) $(tests_src)
+
 .PHONY: test
-test: init  ## run all tests
-	RUN_ENV=testing python -m pytest --cov-report=xml --cov-report term --cov=$(pkg_src) $(tests_src)
+test: init  test-unit  ## run all tests
 
 
 ################################################################################

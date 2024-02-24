@@ -2,33 +2,6 @@
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
-[tool.pdm]
-[[tool.pdm.source]]
-url = "https://pypi.org/simple"
-verify_ssl = true
-name = "pypi"
-
-[tool.pdm.dev-dependencies]
-dev = [
-    "black",
-    "build",
-    "bump2version",
-    "coverage",
-    "flake8",
-    "flake8-bugbear",
-    "ipython",
-    "isort",
-    "mypy",
-    "pre-commit",
-    "pytest",
-    "pytest-cov",
-    "pytest-mock",
-    "tox",
-    "types-click",
-    "types-requests",
-    "-e file:///${PROJECT_ROOT}/#egg=inka",
-]
-
 [project]
 # PEP 621 project metadata
 # See https://www.python.org/dev/peps/pep-0621/
@@ -146,3 +119,28 @@ filename = "pyproject.toml"
 
 [[tool.bumpversion.files]]
 filename = "src/inka/__init__.py"
+
+[tool.pdm]
+[[tool.pdm.source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "build",
+    "bump2version",
+    "coverage",
+    "ipython",
+    "isort",
+    "mypy",
+    "pre-commit",
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+    "tox",
+    "types-click",
+    "types-requests",
+    "-e file:///${PROJECT_ROOT}/#egg=inka",
+]
+
