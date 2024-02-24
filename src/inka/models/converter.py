@@ -8,7 +8,8 @@ from .notes.basic_note import Note
 from .notes.cloze_note import ClozeNote
 
 MD = mistune.create_markdown(
-    plugins=["strikethrough", "footnotes", "table", plugin_mathjax]
+    plugins=["strikethrough", "footnotes", "table", plugin_mathjax],
+    escape=False,
 )
 
 INLINE_CODE_REGEX = re.compile(r"`[\S\s]+?`", re.MULTILINE)

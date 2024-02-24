@@ -347,6 +347,13 @@ def test_convert_md_to_html(basic_note, test_input, expected):
     assert html == expected
 
 
+def test_convert_md_to_html_no_html_escaping(basic_note):
+    test_input = '''<span style="font-size: 9pt;">This text will be 9pt in size.</span>'''
+    expected = '''<p><span style="font-size: 9pt;">This text will be 9pt in size.</span></p>'''
+    html = converter._convert_md_to_html(test_input)
+    assert html == expected
+
+
 def test_convert_cards_to_html_works_with_multiple_cards():
     text1 = r"inside $$\sqrt{2}$$ text"
     text2 = "1. Item1\n" "2. Item2\n" "3. Item3\n"
