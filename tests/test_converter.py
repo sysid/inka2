@@ -1,9 +1,9 @@
 import mistune
 import pytest
+
 from inka2.cli import CONFIG
 from inka2.helpers import parse_str_to_bool
 from inka2.mistune_plugins.mathjax import plugin_mathjax
-
 from inka2.models import converter
 from inka2.models.notes.basic_note import BasicNote
 from inka2.models.notes.cloze_note import ClozeNote

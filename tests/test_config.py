@@ -15,6 +15,7 @@ def default_config_string():
         "deck = Default\n"
         "folder = \n"
         "escape_html = False\n"
+        "add_filename = False\n"
         "\n"
         "[anki]\n"
         "path = \n"

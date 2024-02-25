@@ -4,6 +4,7 @@ from typing import List, Union
 
 import pytest
 
+from inka2.models.config import Config
 from inka2.models.notes.basic_note import BasicNote
 from inka2.models.notes.cloze_note import ClozeNote
 from inka2.models.notes.note import Note
@@ -55,9 +56,9 @@ def file(tmp_path: Path) -> Path:
 
 
 @pytest.fixture
-def notes(file: Path) -> List[Union[BasicNote, ClozeNote]]:
+def notes(config: Config, file: Path) -> List[Union[BasicNote, ClozeNote]]:
     """Notes from the temporary file with randomly generated ids"""
-    parser = Parser(file, "")
+    parser = Parser(config, file, "")
     notes = parser.collect_notes()
     for note in notes:
         note.anki_id = random.randint(1000000000, 9999999999)

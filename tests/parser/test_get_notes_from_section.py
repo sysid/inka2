@@ -2,6 +2,22 @@ import pytest
 
 from inka2.models.notes.basic_note import BasicNote
 from inka2.models.notes.cloze_note import ClozeNote
+from inka2.models.parser import Parser
+
+
+def test_get_notes_from_section_with_filename(config_add_filename):
+    parser = Parser(config_add_filename, "file_doesnt_exist.md", "")
+    section = "Deck: Abraham\n" "\n" "1. Some question?\n" "\n" "> Answer"
+    expected = BasicNote(
+        front_md="Some question?",
+        back_md='Answer\n\n<span style="font-size: 9pt;">File: file_doesnt_exist.md</span>',
+        tags=[],
+        deck_name="Abraham",
+    )
+    cards = parser._get_notes_from_section(section)
+
+    assert cards[0] == expected
+
 
 test_cases = {
     "Deck: Abraham\n": [],

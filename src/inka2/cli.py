@@ -5,9 +5,8 @@ from subprocess import call
 from typing import Iterable, List, Set
 
 import click
+import mistune  # type: ignore
 import requests
-import mistune # type: ignore
-from .mistune_plugins.mathjax import plugin_mathjax
 from rich.prompt import Confirm, Prompt
 from rich.traceback import install
 
@@ -15,6 +14,7 @@ from . import __version__
 from .exceptions import AnkiApiError, HighlighterError
 from .helpers import (
     CONSOLE,
+    parse_str_to_bool,
     print_action,
     print_error,
     print_result,
@@ -24,6 +24,7 @@ from .helpers import (
     print_sub_warning,
     print_warning,
 )
+from .mistune_plugins.mathjax import plugin_mathjax
 from .models import converter, highlighter, img_handler
 from .models.anki_api import AnkiApi
 from .models.anki_media import AnkiMedia
@@ -34,7 +35,6 @@ from .models.notes.cloze_note import ClozeNote
 from .models.notes.note import Note
 from .models.parser import Parser
 from .models.writer import Writer
-from .helpers import parse_str_to_bool
 
 ROOT_DIR = Path(__file__).parent.parent.parent.absolute()
 
@@ -65,7 +65,8 @@ def get_notes_from_file(file_path: str) -> List[Note]:
     os.chdir(os.path.dirname(file_path))
 
     default_deck = CONFIG.get_option_value("defaults", "deck")
-    notes = Parser(file_path, default_deck).collect_notes()
+    notes = Parser(CONFIG, file_path, default_deck).collect_notes()
+    # TODO: add filename
     notes_num = len(notes)
     if notes_num == 0:
         print_sub_step("Cards weren't found!")

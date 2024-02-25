@@ -14,14 +14,6 @@ tests_src = $(app_root)/tests
 ################################################################################
 # Developing \
 DEVELOP: ## ############################################################
-.PHONY: update
-update:  ## update
-	python src/inka2/main.py
-
-.PHONY: create
-create: init  ## create
-	python src/inka2/main.py
-
 .PHONY: init
 init:  ## init
 	pkill anki
@@ -35,22 +27,6 @@ init:  ## init
 anki:  ## anki
 	pkill anki
 	open /Applications/Anki.app --args -b $(PROJ_DIR)/tests/resources/anki_data
-
-.PHONY: query-experiment
-query-experiment:  ## query-experiment
-	@sqlite-utils query test_daily.db "\
-	SELECT \
-	    document.*, \
-	    general.*, \
-	    meeting.* \
-	FROM document \
-	LEFT JOIN general ON document.name = general.document_name \
-	LEFT JOIN list ON document.name = list.document_name \
-	LEFT JOIN meeting ON document.name = meeting.document_name;" | jq
-
-.PHONY: schema
-schema:  ## schema
-	@sqlite-utils schema test_daily.db
 
 .PHONY: test-unit
 test-unit:  ## run all tests except "integration" marked
@@ -68,8 +44,10 @@ test-cicd: test-unit  ## run cicd tsts
 BUILDING:  ## ############################################################
 
 .PHONY: install
-install:  ## install
-	pipx install -e .
+install:  uninstall ## install
+	#pipx install -e .
+	pipx install inka2
+	#cp -vf /Users/Q187392/dev/s/private/other-anki/inka/config.tw.ini
 
 .PHONY: uninstall
 uninstall:  ## uninstall

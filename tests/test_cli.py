@@ -1,7 +1,7 @@
 import pytest
 from click.testing import CliRunner
 
-from inka2.cli import cli, get_notes_from_file, ROOT_DIR
+from inka2.cli import ROOT_DIR, cli, get_notes_from_file
 
 
 @pytest.mark.integration

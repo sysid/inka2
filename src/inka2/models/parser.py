@@ -2,7 +2,9 @@ import re
 from pathlib import Path
 from typing import List, Optional, Union
 
+from ..helpers import parse_str_to_bool
 from ..mistune_plugins.mathjax import BLOCK_MATH
+from .config import Config
 from .notes.basic_note import BasicNote
 from .notes.cloze_note import ClozeNote
 from .notes.note import Note
@@ -46,9 +48,11 @@ class Parser:
 
     def __init__(
         self,
+        config: Config,
         file_path: Union[str, Path],
         default_deck: str,
     ):
+        self._config = config
         self._file_path = file_path
         self._default_deck = default_deck
 
@@ -87,7 +91,7 @@ class Parser:
                 notes.append(
                     BasicNote(
                         front_md=question,
-                        back_md=answer,
+                        back_md=self._add_filename_to_text(answer),
                         tags=tags,
                         deck_name=deck_name,
                         anki_id=anki_id,
@@ -100,10 +104,25 @@ class Parser:
 
                 notes.append(
                     ClozeNote(
-                        text_md=text, tags=tags, deck_name=deck_name, anki_id=anki_id
+                        text_md=self._add_filename_to_text(text),
+                        tags=tags,
+                        deck_name=deck_name,
+                        anki_id=anki_id,
                     )
                 )
         return notes
+
+    # wrapper to add string to end of text
+    def _add_filename_to_text(self, text: str) -> str:
+        """Add filename to the end of the text"""
+        path_string = (
+            f"""<span style="font-size: 9pt;">File: {self._file_path}</span>"""
+        )
+        if not parse_str_to_bool(
+            self._config.get_option_value("defaults", "add_filename")
+        ):
+            return text
+        return f"{text}\n\n{path_string}"
 
     def _get_deck_name(self, section: str) -> str:
         """Get deck name specified for this section"""
