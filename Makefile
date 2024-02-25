@@ -42,6 +42,14 @@ test-cicd: test-unit  ## run cicd tsts
 ################################################################################
 # Building, Deploying \
 BUILDING:  ## ############################################################
+.PHONY: publish
+publish:  ## publish
+	pdm publish
+
+.PHONY: build
+build:  ## build
+	#pdm build
+	python -m build
 
 .PHONY: install
 install:  uninstall ## install
