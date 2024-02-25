@@ -60,7 +60,7 @@ test-unit:  ## run all tests except "integration" marked
 test: init  test-unit  ## run all tests
 
 .PHONY: test-cicd
-test: test-unit  ## run all tests
+test-cicd: test-unit  ## run cicd tsts
 
 
 ################################################################################

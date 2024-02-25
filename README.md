@@ -3,7 +3,6 @@
 [![Downloads](https://static.pepy.tech/badge/inka2)](https://pepy.tech/project/inka2)
 [![PyPi](https://img.shields.io/pypi/v/inka2)](https://pypi.org/project/inka2)
 [![Tests CI](https://img.shields.io/github/actions/workflow/status/sysid/inka2/test.yml?branch=main)](https://github.com/sysid/inka2/actions/workflows/test.yml)
-[![Code style: ruff](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/astral-sh/ruff)
 [![Codecov](https://codecov.io/gh/sysid/inka2/branch/main/graph/badge.svg?token=8IL9MN4FK5)](https://codecov.io/gh/sysid/inka2)
 
 Automatically extract flashcards from Markdown to [Anki](https://apps.ankiweb.net/).
