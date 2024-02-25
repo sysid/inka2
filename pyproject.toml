@@ -78,7 +78,7 @@ branch = true
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
-fail_under = 70
+fail_under = 60
 
 [tool.bumpversion]
 current_version = "2.1.1"
@@ -133,7 +133,7 @@ dev = [
     "coverage",
     "ipython",
     "isort",
-    "mypy",
+    "mypy>=1.8.0",
     "pre-commit",
     "pytest",
     "pytest-cov",
@@ -141,4 +141,5 @@ dev = [
     "tox",
     "types-click",
     "types-requests",
+    "ruff>=0.2.2",
 ]

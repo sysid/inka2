@@ -7,15 +7,13 @@ MAKE          = make
 VERSION       = $(shell cat VERSION)
 IMAGE_NAME = inka2
 
-app_root = $(PROJ_DIR)
-app_root ?= .
+app_root := $(if $(PROJ_DIR),$(PROJ_DIR),$(CURDIR))
 pkg_src =  $(app_root)/src/inka2
 tests_src = $(app_root)/tests
 
 ################################################################################
 # Developing \
 DEVELOP: ## ############################################################
-
 .PHONY: update
 update:  ## update
 	python src/inka2/main.py
@@ -56,10 +54,13 @@ schema:  ## schema
 
 .PHONY: test-unit
 test-unit:  ## run all tests except "integration" marked
-	RUN_ENV=local python -m pytest -m "not (integration or e2e)" --cov-config=pyproject.toml --cov-report=html --cov-report=term --cov=$(pkg_src) $(tests_src)
+	RUN_ENV=local python -m pytest -m "not (integration or e2e)" --cov-config=pyproject.toml --cov-report=html --cov-report=xml --cov-report=term --cov=$(pkg_src) $(tests_src)
 
 .PHONY: test
 test: init  test-unit  ## run all tests
+
+.PHONY: test-cicd
+test: test-unit  ## run all tests
 
 
 ################################################################################
@@ -120,14 +121,14 @@ format-check:  ## perform black formatting
 
 .PHONY: sort-imports
 sort-imports:  ## apply import sort ordering
-	@isort $(pkg_src) $(tests_src) --profile black
+	isort $(pkg_src) $(tests_src) --profile black
 
 .PHONY: style
 style: sort-imports format  ## perform code style format (black, isort)
 
 .PHONY: lint
 lint:  ## check style with ruff
-	@ruff $(pkg_src)
+	@ruff $(pkg_src) $(tests_src)
 
 .PHONY: mypy
 mypy:  ## check type hint annotations

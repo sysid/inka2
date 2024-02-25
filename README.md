@@ -1,12 +1,13 @@
-# inka
+# inka2
 
-[![Downloads](https://pepy.tech/badge/inka)](https://pepy.tech/project/inka)
-[![PyPi](https://img.shields.io/pypi/v/inka)](https://pypi.org/project/inka)
-[![Tests CI](https://img.shields.io/github/actions/workflow/status/keiqu/inka/test.yml?branch=main)](https://github.com/keiqu/inka/actions/workflows/test.yml)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Codecov](https://codecov.io/gh/keiqu/inka/branch/main/graph/badge.svg?token=9wW5SJ9uLL)](https://codecov.io/gh/keiqu/inka)
+[![Downloads](https://static.pepy.tech/badge/inka2)](https://pepy.tech/project/inka2)
+[![PyPi](https://img.shields.io/pypi/v/inka2)](https://pypi.org/project/inka2)
+[![Tests CI](https://img.shields.io/github/actions/workflow/status/sysid/inka2/test.yml?branch=main)](https://github.com/sysid/inka2/actions/workflows/test.yml)
+[![Code style: ruff](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/astral-sh/ruff)
+[![Codecov](https://codecov.io/gh/sysid/inka2/branch/main/graph/badge.svg?token=8IL9MN4FK5)](https://codecov.io/gh/sysid/inka2)
 
-Automatically add your Markdown flashcards to [Anki](https://apps.ankiweb.net/).
+Automatically extract flashcards from Markdown to [Anki](https://apps.ankiweb.net/).
+> too useful to let it be unsupported :-)
 
 - [Installation](#installation)
     - [Requirements](#requirements)
@@ -18,10 +19,10 @@ Automatically add your Markdown flashcards to [Anki](https://apps.ankiweb.net/).
 
 ## Installation
 
-Install **inka**:
+Install **inka2**:
 
 ```shell
-python3 -m pip install inka --upgrade
+python3 -m pip install inka2 --upgrade
 ```
 
 ### Requirements
@@ -36,18 +37,18 @@ which I then created Anki cards. The process of creating flashcards in Anki took
 Python script to automate it. With more and more features added, the script has evolved into the command-line tool you
 can see now.
 
-**inka** allows you to use full power of Markdown when creating flashcards. The program is also extensively tested.
+**inka2** allows you to use full power of Markdown when creating flashcards. The program is also extensively tested.
 
 ## Features
 
 - Cards are automatically added to your Anki deck
-- [Basic and Cloze note types support](https://github.com/keiqu/inka/wiki/Creating-cards#frontback-notes)
-- [Synchronization of changes with Anki](https://github.com/keiqu/inka/wiki/Synchronization-with-Anki)
-- [Configuration via config file](https://github.com/keiqu/inka/wiki/Config)
-- [Images support](https://github.com/keiqu/inka/wiki/Creating-cards#images)
-- [MathJax support](https://github.com/keiqu/inka/wiki/Mathjax)
-- [Code highlight](https://github.com/keiqu/inka/wiki/Code-highlight)
-- [Hashing (for better performance)](https://github.com/keiqu/inka/wiki/Hashing)
+- [Basic and Cloze note types support](https://github.com/sysid/inka2/wiki/Creating-cards#frontback-notes)
+- [Synchronization of changes with Anki](https://github.com/sysid/inka2/wiki/Synchronization-with-Anki)
+- [Configuration via config file](https://github.com/sysid/inka2/wiki/Config)
+- [Images support](https://github.com/sysid/inka2/wiki/Creating-cards#images)
+- [MathJax support](https://github.com/sysid/inka2/wiki/Mathjax)
+- [Code highlight](https://github.com/sysid/inka2/wiki/Code-highlight)
+- [Hashing (for better performance)](https://github.com/sysid/inka2/wiki/Hashing)
 
 ## Usage
 
@@ -74,11 +75,11 @@ Tags: learning life-questions
 
 You can create any number of such sections in the file.
 
-> :warning: This means that you should avoid using the `---` syntax anywhere else in the file for **inka** to work correctly.
-> There are exceptions, and you can read about them in [documentation](https://github.com/keiqu/inka/wiki/Creating-cards#i-want-to-use-----for-other-purposes).
+> :warning: This means that you should avoid using the `---` syntax anywhere else in the file for **inka2** to work correctly.
+> There are exceptions, and you can read about them in [documentation](https://github.com/sysid/inka2/wiki/Creating-cards#i-want-to-use-----for-other-purposes).
 
 Inside the section, you can specify the name of the deck to which the cards will be added, and tags for the cards. If
-deck name isn't specified, then the one from the [config](https://github.com/keiqu/inka/wiki/Config) is
+deck name isn't specified, then the one from the [config](https://github.com/sysid/inka2/wiki/Config) is
 used (`Default` by default). The deck name is written after `Deck:`, and tags for all cards after `Tags:` with spaces
 between each tag.
 
@@ -87,35 +88,35 @@ Two types of notes are supported:
 - **Front/Back**: every question starts with number followed by period (e.g. `1.`, `2.` - Markdown ordered list syntax)
   and every line of the answer starts with `>` (Markdown quote syntax). Question and answer can span multiple lines.
 - **Cloze**: same as Front/Back notes, Cloze notes start with number followed by period (Markdown ordered list syntax).
-  **inka** supports three versions of syntax for cloze deletions:
+  **inka2** supports three versions of syntax for cloze deletions:
     - Anki syntax: `{{c1::hidden text}}`
     - Short explicit syntax: `{1::hidden text}` or `{c1::hidden text}`
     - Short implicit syntax: `{hidden text}`
 
-More info and examples on the [creating cards](https://github.com/keiqu/inka/wiki/Creating-cards) documentation
+More info and examples on the [creating cards](https://github.com/sysid/inka2/wiki/Creating-cards) documentation
 page.
 
 ### Adding Cards to Anki
 
-**inka** will create custom note types for **Front/Back** and **Cloze** notes. If you want to use different ones, you
-can change note types in the [config](https://github.com/keiqu/inka/wiki/Config).
+**inka2** will create custom note types for **Front/Back** and **Cloze** notes. If you want to use different ones, you
+can change note types in the [config](https://github.com/sysid/inka2/wiki/Config).
 
 Add cards from the file:
 
 ```commandline
-inka collect path/to/cards.md
+inka2 collect path/to/cards.md
 ```
 
 Or from all *Markdown* files in a directory:
 
 ```commandline
-inka collect path/to/directory
+inka2 collect path/to/directory
 ```
 
 You can also pass multiple paths at once:
 
 ```commandline
-inka collect path/to/cards.md path/to/folder
+inka2 collect path/to/cards.md path/to/folder
 ```
 
-You can find more information on the [documentation page](https://github.com/keiqu/inka/wiki/Adding-cards-to-Anki).
+You can find more information on the [documentation page](https://github.com/sysid/inka2/wiki/Adding-cards-to-Anki).

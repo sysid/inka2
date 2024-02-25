@@ -1,6 +1,7 @@
 name: Tests
 
 on:
+  workflow_dispatch:
   push:
     tags-ignore:
       - '**'
@@ -24,33 +25,35 @@ jobs:
 
     strategy:
       matrix:
-        python: [ '3.10', '3.11' ]
+        python: [ '3.12' ]
 
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v4.5.0
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+
+      - name: Setup PDM
+        uses: pdm-project/setup-pdm@v4
+        with:
+          python-version: ${{ matrix.python }}
+          cache: true
 
       - name: Install dependencies
         run: |
           sudo apt update && sudo apt install --yes libgl1-mesa-dev
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install .
+          pdm install --check --dev
 
       - name: Test with pytest
         run: |
-          pytest --cov=inka --cov-report=xml
+          pdm run make test-cicd
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage.xml
-          flags: unittests
-          name: GitHub
+          slug: sysid/inka2
 
   lint:
     runs-on: ubuntu-latest
@@ -58,27 +61,32 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v4.5.0
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: ${{ matrix.python-version }}
+
+      - name: Setup PDM
+        uses: pdm-project/setup-pdm@v4
+        with:
+          python-version: ${{ matrix.python }}
+          cache: true
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pdm install --check --dev
 
       - name: mypy
         run: |
-          mypy --python-version=3.10 src/
+          pdm run mypy --python-version=3.12 src/
 
-      - name: flake8
+      - name: lint
         run: |
-          flake8 src/ tests/
+          pdm run make lint
 
-      - name: black
+      - name: format
         run: |
-          black --check --verbose ./src ./tests
+          pdm run make format-check
 
       - name: isort
         run: |
-          isort . --check --diff
+          pdm run isort . --check --diff
