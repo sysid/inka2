@@ -19,6 +19,7 @@ class Config:
     _default_cloze_type = "Inka Cloze"
     _default_cloze_field = "Text"
     _default_highlight_style = "monokai"
+    _default_escape_html = False
 
     def __init__(self, config_path: Union[str, Path]):
         self._config = configparser.ConfigParser()
@@ -41,6 +42,7 @@ class Config:
                 "profile": self._default_profile,
                 "deck": self._default_deck,
                 "folder": self._default_folder,
+                "escape_html": self._default_escape_html,
             },
             "anki": {
                 "path": self._default_path,

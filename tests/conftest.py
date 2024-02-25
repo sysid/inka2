@@ -3,9 +3,12 @@ import random
 import sys
 from unittest.mock import MagicMock
 
+import mistune
 import pytest
 from PIL import Image as Img
-
+from inka2.cli import CONFIG
+from inka2.helpers import parse_str_to_bool
+from inka2.mistune_plugins.mathjax import plugin_mathjax
 from inka2.models.anki_api import AnkiApi
 from inka2.models.anki_media import AnkiMedia
 from inka2.models.config import Config
@@ -122,3 +125,11 @@ def config_path(tmp_path):
 def config(config_path):
     """Instance of Config class. Path to config specified by 'config_path' fixture"""
     return Config(config_path)
+
+
+@pytest.fixture
+def md():
+    return mistune.create_markdown(
+        plugins=["strikethrough", "footnotes", "table", plugin_mathjax],
+        escape=parse_str_to_bool(CONFIG.get_option_value("defaults", "escape_html")),
+    )

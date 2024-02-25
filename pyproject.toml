@@ -10,10 +10,10 @@ version = "2.2.0"
 description = "Command-line tool for adding flashcards from Markdown files to Anki"
 readme = "README.md"
 authors = [
-    {name="Kirill Salnikov", email="salnikov.k54@gmail.com"},
-    {name = "sysid", email = "sysid@gmx.de"},
+    { name = "sysid", email = "sysid@gmx.de" },
+    { name = "Kirill Salnikov", email = "salnikov.k54@gmail.com" },
 ]
-classifiers=[
+classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Operating System :: OS Independent",
     "Intended Audience :: Education",
@@ -23,9 +23,10 @@ classifiers=[
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3 :: Only",
 ]
-license = {text = "GPLv3"}
+license = { text = "GPLv3" }
 
 requires-python = ">=3.10"
 dependencies = [
@@ -41,7 +42,6 @@ dependencies = [
     "mypy",
     "isort",
     "black",
-    "pydantic-settings>=2.2.1",
 ]
 
 [project.scripts]
@@ -99,16 +99,16 @@ commit_args = ""
 
 [tool.bumpversion.file_patterns]
 "my_package/__init__.py" = [
-    {search = "__version__ = '{current_version}'", replace = "__version__ = '{new_version}'"},
+    { search = "__version__ = '{current_version}'", replace = "__version__ = '{new_version}'" },
 ]
 #"README.md" = [
 #    {search = "Current version: {current_version}", replace = "Current version: {new_version}"},
 #]
 "VERSION" = [
-    {search = "{current_version}", replace = "{new_version}"},
+    { search = "{current_version}", replace = "{new_version}" },
 ]
 "pyproject.toml" = [
-    {search = "version = {current_version}", replace = "version = {new_version}"},
+    { search = "version = {current_version}", replace = "version = {new_version}" },
 ]
 
 [[tool.bumpversion.files]]

@@ -6,6 +6,8 @@ from inka2.models.notes.note import Note
 
 CONSOLE = Console()
 
+def parse_str_to_bool(string_value: str) -> bool:
+    return string_value.strip().lower() == 'true'
 
 def print_result(msg: str) -> None:
     CONSOLE.print(f"{msg}", style="green")

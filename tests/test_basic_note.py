@@ -16,10 +16,10 @@ def test_search_query(basic_note):
     assert basic_note.search_query == expected
 
 
-def test_convert_fields_to_html_when_function_passed(basic_note):
+def test_convert_fields_to_html_when_function_passed(basic_note, md):
     new_text = "new text"
 
-    basic_note.convert_fields_to_html(lambda text: new_text)
+    basic_note.convert_fields_to_html(lambda text, md: new_text, md)
 
     assert basic_note.front_html == new_text
     assert basic_note.back_html == new_text

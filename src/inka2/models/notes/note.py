@@ -1,3 +1,4 @@
+import mistune  # type: ignore
 from abc import ABC, abstractmethod
 from typing import Any, Callable, Dict, Iterable, List, Optional
 
@@ -25,7 +26,7 @@ class Note(ABC):
         pass
 
     @abstractmethod
-    def convert_fields_to_html(self, convert_func: Callable[[str], str]) -> None:
+    def convert_fields_to_html(self, convert_func: Callable[[str, mistune.Markdown], str], md: mistune.markdown) -> None:
         """Convert note fields from markdown to html using provided function"""
         pass
 

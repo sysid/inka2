@@ -3,14 +3,9 @@ from typing import Iterable, Iterator, Match, Pattern, Tuple, Union
 
 import mistune  # type: ignore
 
-from ..mistune_plugins.mathjax import BLOCK_MATH, INLINE_MATH, plugin_mathjax
+from ..mistune_plugins.mathjax import BLOCK_MATH, INLINE_MATH
 from .notes.basic_note import Note
 from .notes.cloze_note import ClozeNote
-
-MD = mistune.create_markdown(
-    plugins=["strikethrough", "footnotes", "table", plugin_mathjax],
-    escape=False,
-)
 
 INLINE_CODE_REGEX = re.compile(r"`[\S\s]+?`", re.MULTILINE)
 BLOCK_CODE_REGEX = re.compile(r"```[\s\S]+?```", re.MULTILINE)
@@ -27,10 +22,10 @@ INLINE_MATH_PLACEHOLDER = "INLINE_MATH_PLACEHOLDER"
 BLOCK_MATH_PLACEHOLDER = "BLOCK_MATH_PLACEHOLDER"
 
 
-def convert_notes_to_html(notes: Iterable[Note]):
+def convert_notes_to_html(notes: Iterable[Note], md: mistune.Markdown):
     """Convert note fields to html"""
     for note in notes:
-        note.convert_fields_to_html(_convert_md_to_html)
+        note.convert_fields_to_html(_convert_md_to_html, md)
 
 
 def convert_cloze_deletions_to_anki_format(cloze_notes: Iterable[ClozeNote]):
@@ -72,9 +67,9 @@ def convert_cloze_deletions_to_anki_format(cloze_notes: Iterable[ClozeNote]):
         note.updated_text_md = redacted_text
 
 
-def _convert_md_to_html(text: str) -> str:
+def _convert_md_to_html(text: str, md: mistune.Markdown) -> str:
     # We delete '\n' before and after each html tag because Anki is rendering them as newlines
-    return re.sub(r"\n?(<.+?>)\n?", lambda tag_match: tag_match.group(1), MD(text))
+    return re.sub(r"\n?(<.+?>)\n?", lambda tag_match: tag_match.group(1), md(text))
 
 
 def _get_matches_and_updated_text(

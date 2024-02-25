@@ -1,5 +1,6 @@
 from typing import Any, Callable, Dict, Iterable, List, Optional
 
+import mistune # type: ignore
 from rich.table import Column, Table
 
 from ..config import Config
@@ -30,10 +31,10 @@ class BasicNote(Note):
         """Query to search for note in Anki"""
         return self.create_anki_search_query(self.front_html)
 
-    def convert_fields_to_html(self, convert_func: Callable[[str], str]) -> None:
+    def convert_fields_to_html(self, convert_func: Callable[[str, mistune.Markdown], str], md: mistune.Markdown) -> None:
         """Convert note fields from markdown to html using provided function"""
-        self.front_html = convert_func(self.updated_front_md)
-        self.back_html = convert_func(self.updated_back_md)
+        self.front_html = convert_func(self.updated_front_md, md)
+        self.back_html = convert_func(self.updated_back_md, md)
 
     def update_fields_with(self, update_func: Callable[[str], str]) -> None:
         """Updates values of *updated* fields using provided function"""

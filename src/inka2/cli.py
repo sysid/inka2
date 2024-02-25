@@ -6,6 +6,8 @@ from typing import Iterable, List, Set
 
 import click
 import requests
+import mistune # type: ignore
+from .mistune_plugins.mathjax import plugin_mathjax
 from rich.prompt import Confirm, Prompt
 from rich.traceback import install
 
@@ -32,6 +34,9 @@ from .models.notes.cloze_note import ClozeNote
 from .models.notes.note import Note
 from .models.parser import Parser
 from .models.writer import Writer
+from .helpers import parse_str_to_bool
+
+ROOT_DIR = Path(__file__).parent.parent.parent.absolute()
 
 DEFAULT_ANKI_FOLDERS = {
     "win32": r"~\AppData\Roaming\Anki2",
@@ -44,6 +49,11 @@ CONFIG_PATH = f"{os.path.dirname(__file__)}/config.ini"
 HASHES_PATH = f"{os.path.dirname(__file__)}/hashes.json"
 
 CONFIG = Config(CONFIG_PATH)
+MD = mistune.create_markdown(
+    plugins=["strikethrough", "footnotes", "table", plugin_mathjax],
+    escape=parse_str_to_bool(CONFIG.get_option_value("defaults", "escape_html")),
+)
+
 
 # pretty traceback
 install(console=CONSOLE)
@@ -97,7 +107,7 @@ def create_notes_from_file(
     img_handler.handle_images_in(notes, anki_media)
 
     print_sub_step("Converting cards to the html...")
-    converter.convert_notes_to_html(notes)
+    converter.convert_notes_to_html(notes, MD)
 
     print_sub_step("Synchronizing changes and adding new cards...")
     for note in notes:
@@ -136,7 +146,7 @@ def update_note_ids_in_file(file_path: str, anki_api: AnkiApi, anki_media: AnkiM
     img_handler.handle_images_in(notes, anki_media, copy_images=False)
 
     print_sub_step("Converting cards to the html...")
-    converter.convert_notes_to_html(notes)
+    converter.convert_notes_to_html(notes, MD)
 
     print_sub_step("Getting card IDs from Anki...")
     anki_api.update_note_ids(notes)

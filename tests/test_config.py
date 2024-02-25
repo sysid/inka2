@@ -14,6 +14,7 @@ def default_config_string():
         "profile = \n"
         "deck = Default\n"
         "folder = \n"
+        "escape_html = False\n"
         "\n"
         "[anki]\n"
         "path = \n"

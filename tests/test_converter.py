@@ -1,8 +1,20 @@
+import mistune
 import pytest
+from inka2.cli import CONFIG
+from inka2.helpers import parse_str_to_bool
+from inka2.mistune_plugins.mathjax import plugin_mathjax
 
 from inka2.models import converter
 from inka2.models.notes.basic_note import BasicNote
 from inka2.models.notes.cloze_note import ClozeNote
+
+
+@pytest.fixture
+def md():
+    return mistune.create_markdown(
+        plugins=["strikethrough", "footnotes", "table", plugin_mathjax],
+        escape=parse_str_to_bool(CONFIG.get_option_value("defaults", "escape_html")),
+    )
 
 
 @pytest.fixture
@@ -341,24 +353,24 @@ def test_convert_cloze_deletions_to_anki_format_works_with_multiple_notes():
 
 
 @pytest.mark.parametrize("test_input, expected", md_to_html_test_cases.items())
-def test_convert_md_to_html(basic_note, test_input, expected):
-    html = converter._convert_md_to_html(test_input)
+def test_convert_md_to_html(basic_note, test_input, expected, md):
+    html = converter._convert_md_to_html(test_input, md)
 
     assert html == expected
 
 
-def test_convert_md_to_html_no_html_escaping(basic_note):
+def test_convert_md_to_html_no_html_escaping(basic_note, md):
     test_input = (
         """<span style="font-size: 9pt;">This text will be 9pt in size.</span>"""
     )
     expected = (
         """<p><span style="font-size: 9pt;">This text will be 9pt in size.</span></p>"""
     )
-    html = converter._convert_md_to_html(test_input)
+    html = converter._convert_md_to_html(test_input, md)
     assert html == expected
 
 
-def test_convert_cards_to_html_works_with_multiple_cards():
+def test_convert_cards_to_html_works_with_multiple_cards(md):
     text1 = r"inside $$\sqrt{2}$$ text"
     text2 = "1. Item1\n" "2. Item2\n" "3. Item3\n"
     basic_note1 = BasicNote(front_md=text1, back_md=text2, tags=[], deck_name="")
@@ -368,7 +380,7 @@ def test_convert_cards_to_html_works_with_multiple_cards():
     expected2 = "<ol><li>Item1</li><li>Item2</li><li>Item3</li></ol>"
     expected3 = "<p>Some question {{c1::42}}</p>"
 
-    converter.convert_notes_to_html([basic_note1, basic_note2, cloze_note])
+    converter.convert_notes_to_html([basic_note1, basic_note2, cloze_note], md)
 
     assert basic_note1.front_html == expected1
     assert basic_note1.back_html == expected2

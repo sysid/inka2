@@ -16,10 +16,10 @@ def test_search_query(cloze_note):
     assert cloze_note.search_query == expected
 
 
-def test_convert_fields_to_html_when_function_passed(cloze_note):
+def test_convert_fields_to_html_when_function_passed(cloze_note, md):
     new_text = "new text"
 
-    cloze_note.convert_fields_to_html(lambda text: new_text)
+    cloze_note.convert_fields_to_html(lambda text, md: new_text, md)
 
     assert cloze_note.text_html == new_text
 
