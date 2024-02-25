@@ -48,14 +48,14 @@ publish:  ## publish
 
 .PHONY: build
 build:  ## build
-	#pdm build
+	#pdm build  # did not work?
 	python -m build
 
 .PHONY: install
 install:  uninstall ## install
-	#pipx install -e .
-	pipx install inka2
-	#cp -vf /Users/Q187392/dev/s/private/other-anki/inka/config.tw.ini
+	@#pipx install -e .
+	@pipx install inka2
+	@cp -vf $(HOME)/dev/s/private/other-anki/inka/config.tw.ini $(HOME)/.local/pipx/venvs/inka2/lib/python3.12/site-packages/inka2/config.ini
 
 .PHONY: uninstall
 uninstall:  ## uninstall
