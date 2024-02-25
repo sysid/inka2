@@ -27,7 +27,7 @@ classifiers=[
 ]
 license = {text = "GPLv3"}
 
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 dependencies = [
     "mistune==2.0.5",
     "requests",
