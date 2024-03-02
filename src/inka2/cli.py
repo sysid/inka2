@@ -380,13 +380,13 @@ def list_config_options(ctx, param, value) -> None:
 @click.group()
 @click.version_option(version=__version__)
 def cli() -> None:
-    """Inka - command-line tool for adding flashcards from Markdown files to Anki.
+    """Inka2 - command-line tool for adding flashcards from Markdown files to Anki.
 
     Documentation:\n
-        https://github.com/keiqu/inka/wiki
+        https://github.com/sysid/inka2/wiki
 
     Github:\n
-        https://github.com/keiqu/inka
+        https://github.com/sysid/inka2
     """
     pass
 
