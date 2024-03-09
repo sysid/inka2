@@ -1,11 +1,12 @@
 import re
 from pathlib import Path
-from typing import Iterable, Optional, Union
+from typing import Iterable, Optional, Union, List
 
 from .notes.basic_note import BasicNote
 from .notes.cloze_note import ClozeNote
 from .notes.note import Note
 from .parser import Parser
+from ..helpers import print_sub_warning
 
 
 class Writer:
@@ -24,7 +25,13 @@ class Writer:
         for note in self._notes:
             # Find note's question in file string
             note_question = note.get_raw_question_field()
-            question_string_start = self._file_content.find(note_question)
+
+            all_occurrences = self.find_all_occurrences(note_question)
+            if len(all_occurrences) > 1:
+                print_sub_warning(f"Warning: more than one occurrence of '{note_question}' found in {self._file_path}")
+                print_sub_warning("Can cause undefined behavior.")
+
+            question_string_start = self._file_content.find(note_question)  # TODO: make unambiguous
             if question_string_start == -1:
                 continue
 
@@ -58,7 +65,7 @@ class Writer:
                 self._file_content = (
                     self._file_content[: newline_index + 1]
                     + id_string
-                    + self._file_content[newline_index + 1 :]
+                    + self._file_content[newline_index + 1:]
                 )
             else:
                 # Substitute existing ID with the new one
@@ -67,6 +74,17 @@ class Writer:
                 )
 
         self._save()
+
+    def find_all_occurrences(self, note_question: str) -> List[int]:
+        start = 0
+        all_occurrences = []
+        while True:
+            start = self._file_content.find(note_question, start)
+            if start == -1:  # No more occurrences
+                break
+            all_occurrences.append(start)
+            start += len(note_question)  # Move past the current match
+        return all_occurrences
 
     def update_fields_of_basic_notes(self):
         """Update question and answer fields in notes in file"""

@@ -857,3 +857,32 @@ def test_update_cloze_notes_updates_raw_text_value(writer, notes):
     writer.update_cloze_notes()
 
     assert notes[2].raw_text_md == notes[2].updated_text_md
+
+
+def test_find_all_occurrences_returns_correct_indices(writer):
+    writer._file_content = "Hello, this is a test. Testing is important. Test again."
+    note_question = "test"
+    expected = [17]
+
+    result = writer.find_all_occurrences(note_question)
+
+    assert result == expected
+
+
+def test_find_all_occurrences_returns_empty_list_when_no_occurrences(writer):
+    writer._file_content = "Hello, this is a test. Testing is important. Test again."
+    note_question = "notfound"
+
+    result = writer.find_all_occurrences(note_question)
+
+    assert result == []
+
+
+def test_find_all_occurrences_returns_correct_indices_case_sensitive(writer):
+    writer._file_content = "Hello, this is a test. Testing is important. Test again."
+    note_question = "Test"
+    expected = [23, 45]
+
+    result = writer.find_all_occurrences(note_question)
+
+    assert result == expected
