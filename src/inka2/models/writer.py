@@ -1,12 +1,12 @@
 import re
 from pathlib import Path
-from typing import Iterable, Optional, Union, List
+from typing import Iterable, List, Optional, Union
 
+from ..helpers import print_sub_warning
 from .notes.basic_note import BasicNote
 from .notes.cloze_note import ClozeNote
 from .notes.note import Note
 from .parser import Parser
-from ..helpers import print_sub_warning
 
 
 class Writer:
@@ -28,10 +28,14 @@ class Writer:
 
             all_occurrences = self.find_all_occurrences(note_question)
             if len(all_occurrences) > 1:
-                print_sub_warning(f"Warning: more than one occurrence of '{note_question}' found in {self._file_path}")
+                print_sub_warning(
+                    f"Warning: more than one occurrence of '{note_question}' found in {self._file_path}"
+                )
                 print_sub_warning("Can cause undefined behavior. Please fix.")
 
-            question_string_start = self._file_content.find(note_question)  # TODO: make unambiguous
+            question_string_start = self._file_content.find(
+                note_question
+            )  # TODO: make unambiguous
             if question_string_start == -1:
                 continue
 
@@ -65,7 +69,7 @@ class Writer:
                 self._file_content = (
                     self._file_content[: newline_index + 1]
                     + id_string
-                    + self._file_content[newline_index + 1:]
+                    + self._file_content[newline_index + 1 :]
                 )
             else:
                 # Substitute existing ID with the new one

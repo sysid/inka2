@@ -575,14 +575,19 @@ def collect(
                 update_note_ids_in_file(file, anki_api, anki_media)
                 continue
 
-            create_notes_from_file(file, full_sync, anki_api, anki_media, hasher, force=force)
+            create_notes_from_file(
+                file, full_sync, anki_api, anki_media, hasher, force=force
+            )
         except (
             OSError,
             ValueError,
             FileNotFoundError,
             FileExistsError,
         ) as e:
-            print_error(f"{e}\nSkipping file! Consider re-running with --force.", pause=(not ignore_errors))
+            print_error(
+                f"{e}\nSkipping file! Consider re-running with --force.",
+                pause=(not ignore_errors),
+            )
         except AnkiApiError as e:
             print_error(f"{e}\nSkipping file!", pause=(not ignore_errors), note=e.note)
         finally:

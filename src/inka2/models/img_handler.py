@@ -7,7 +7,10 @@ from .notes.note import Note
 
 
 def handle_images_in(
-    notes: List[Note], anki_media: AnkiMedia, copy_images: bool = True, force: bool = False
+    notes: List[Note],
+    anki_media: AnkiMedia,
+    copy_images: bool = True,
+    force: bool = False,
 ) -> None:
     """
     Copy images used in Notes fields to Anki Media folder and change source in their
@@ -74,7 +77,9 @@ def _update_image_links_in_notes(image_links: Dict[str, List[Note]]) -> None:
             note.update_fields_with(lambda field: str.replace(field, link, new_link))
 
 
-def _copy_images_to(anki_media: AnkiMedia, image_links: Iterable[str], force: bool = False) -> None:
+def _copy_images_to(
+    anki_media: AnkiMedia, image_links: Iterable[str], force: bool = False
+) -> None:
     """Copy images to Anki Media folder.
 
     Args:
