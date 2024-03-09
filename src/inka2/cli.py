@@ -82,6 +82,7 @@ def create_notes_from_file(
     anki_api: AnkiApi,
     anki_media: AnkiMedia,
     hasher: Hasher,
+    force: bool = False,
 ) -> None:
     """Get all notes from file and send them to Anki"""
     print_step(f'Collecting cards from "{file_path}"!')
@@ -105,7 +106,7 @@ def create_notes_from_file(
     writer.update_cloze_notes()
 
     print_sub_step("Handling images...")
-    img_handler.handle_images_in(notes, anki_media)
+    img_handler.handle_images_in(notes, anki_media, force=force)
 
     print_sub_step("Converting cards to the html...")
     converter.convert_notes_to_html(notes, MD)
@@ -478,6 +479,12 @@ def config(list_options: bool, reset: bool, edit: bool, name: str, value: str) -
     is_flag=True,
     help="Collect cards from the file, even if the file hasn't changed since the last sync.",
 )
+@click.option(
+    "--force",
+    "force",
+    is_flag=True,
+    help="Copy images to Anki Media folder even if they already exist, i.e. overwrite.",
+)
 @click.argument(
     "paths", metavar="[PATH]...", nargs=-1, type=click.Path(exists=True), required=False
 )
@@ -487,6 +494,7 @@ def collect(
     update_ids: bool,
     ignore_errors: bool,
     full_sync: bool,
+    force: bool,
     paths: Iterable[str],
 ) -> None:
     """Get flashcards from files and add them to Anki. If flashcard already exists in Anki, the changes will be synced.
@@ -567,14 +575,14 @@ def collect(
                 update_note_ids_in_file(file, anki_api, anki_media)
                 continue
 
-            create_notes_from_file(file, full_sync, anki_api, anki_media, hasher)
+            create_notes_from_file(file, full_sync, anki_api, anki_media, hasher, force=force)
         except (
             OSError,
             ValueError,
             FileNotFoundError,
             FileExistsError,
         ) as e:
-            print_error(f"{e}\nSkipping file!", pause=(not ignore_errors))
+            print_error(f"{e}\nSkipping file! Consider re-running with --force.", pause=(not ignore_errors))
         except AnkiApiError as e:
             print_error(f"{e}\nSkipping file!", pause=(not ignore_errors), note=e.note)
         finally:

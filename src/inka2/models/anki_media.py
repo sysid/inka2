@@ -21,11 +21,12 @@ class AnkiMedia:
         """
         return os.path.exists(f"{self._anki_media_path}/{file_name}")
 
-    def copy_file_from(self, file_path: Union[Path, str]) -> None:
+    def copy_file_from(self, file_path: Union[Path, str], force: bool = False) -> None:
         """Copy file to Anki Media folder.
 
         Args:
             file_path: path to file that will be copied
+            force: if True, file will be copied even if file with the same name already exists in Anki Media folder
         Raises:
             FileNotFoundError: if file_path contains incorrect path
             FileExistsError: if different file with the same name already exists in Anki Media folder
@@ -36,9 +37,10 @@ class AnkiMedia:
             if filecmp.cmp(file_path, anki_file_path):
                 return  # Skip if same file already exists
 
-            raise FileExistsError(
-                f'different file with the same name "{file_name}" already exists in Anki Media folder.'
-            )
+            if not force:
+                raise FileExistsError(
+                    f'different file with the same name "{file_name}" already exists in Anki Media folder.'
+                )
 
         shutil.copyfile(file_path, anki_file_path)
 

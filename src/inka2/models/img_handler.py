@@ -7,7 +7,7 @@ from .notes.note import Note
 
 
 def handle_images_in(
-    notes: List[Note], anki_media: AnkiMedia, copy_images: bool = True
+    notes: List[Note], anki_media: AnkiMedia, copy_images: bool = True, force: bool = False
 ) -> None:
     """
     Copy images used in Notes fields to Anki Media folder and change source in their
@@ -17,13 +17,14 @@ def handle_images_in(
         notes: Notes in which image links will be searched for and then updated
         anki_media: AnkiMedia object that will be used to copy images
         copy_images: copy images to Anki media folder or not
+        force: if True, files will be copied even if files with the same name already exists in Anki Media folder
     """
     # Find all unique image links in the notes
     image_links = _fetch_image_links(notes)
 
     # Copy images to Anki Media folder
     if copy_images:
-        _copy_images_to(anki_media, list(image_links.keys()))
+        _copy_images_to(anki_media, list(image_links.keys()), force=force)
 
     # Update image links in notes
     _update_image_links_in_notes(image_links)
@@ -73,7 +74,7 @@ def _update_image_links_in_notes(image_links: Dict[str, List[Note]]) -> None:
             note.update_fields_with(lambda field: str.replace(field, link, new_link))
 
 
-def _copy_images_to(anki_media: AnkiMedia, image_links: Iterable[str]) -> None:
+def _copy_images_to(anki_media: AnkiMedia, image_links: Iterable[str], force: bool = False) -> None:
     """Copy images to Anki Media folder.
 
     Args:
@@ -89,7 +90,7 @@ def _copy_images_to(anki_media: AnkiMedia, image_links: Iterable[str]) -> None:
             continue
 
         try:
-            anki_media.copy_file_from(abs_path)
+            anki_media.copy_file_from(abs_path, force=force)
         except FileNotFoundError:
             raise FileNotFoundError(
                 f'cannot find image "{link}" on the path "{abs_path}"'

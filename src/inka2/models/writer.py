@@ -29,7 +29,7 @@ class Writer:
             all_occurrences = self.find_all_occurrences(note_question)
             if len(all_occurrences) > 1:
                 print_sub_warning(f"Warning: more than one occurrence of '{note_question}' found in {self._file_path}")
-                print_sub_warning("Can cause undefined behavior.")
+                print_sub_warning("Can cause undefined behavior. Please fix.")
 
             question_string_start = self._file_content.find(note_question)  # TODO: make unambiguous
             if question_string_start == -1:
