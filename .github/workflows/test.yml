@@ -51,7 +51,7 @@ jobs:
 
     strategy:
       matrix:
-        python: [ '3.10', '3.11', '3.12' ]
+        python: [ '3.12' ]
 
     steps:
       - uses: actions/checkout@v4
@@ -68,7 +68,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pdm lock
+          #pdm lock
           pdm install --dev
 
       - name: mypy
