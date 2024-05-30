@@ -11,8 +11,8 @@ import anki.consts
 import anki.errors
 import anki.models
 import anki.notes
-
 from aqt.profiles import ProfileManager
+
 from ..exceptions import AnkiApiError
 from .config import Config
 from .notes.note import Note
