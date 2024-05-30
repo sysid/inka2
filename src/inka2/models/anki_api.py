@@ -11,8 +11,8 @@ import anki.consts
 import anki.errors
 import anki.models
 import anki.notes
-import aqt
 
+from aqt.profiles import ProfileManager
 from ..exceptions import AnkiApiError
 from .config import Config
 from .notes.note import Note
@@ -30,7 +30,7 @@ class AnkiApi:
             raise AnkiApiError(f'incorrect path to Anki folder: "{anki_path}"')
 
         # Initialize profile manager to get access to profile and database actions
-        self._profile_manager = aqt.ProfileManager(anki_path)
+        self._profile_manager = ProfileManager(anki_path)
         self._profile_manager.setupMeta()
 
     def get_profiles(self) -> List[str]:
@@ -63,11 +63,14 @@ class AnkiApi:
         if auth is None:
             raise AnkiApiError("Isn't authenticated with AnkiWeb")
 
-        self._collection.save(trx=False)
+        # self._collection.save(trx=False)
 
         # Perform main sync
         try:
-            self._collection.sync_collection(auth)
+            # TODO it throws a warning that it is being running in the main thread
+            # https://forums.ankiweb.net/t/unable-to-sync-login-via-anki-python-pkg-to-ankiweb/43092/4
+            sync_media = self._profile_manager.media_syncing_enabled()
+            self._collection.sync_collection(auth, sync_media)
         except anki.errors.NetworkError:
             raise AnkiApiError("Please check your internet connection")
 
@@ -99,7 +102,7 @@ class AnkiApi:
         for note in notes:
             # Update id only if note with this id doesn't exist
             try:
-                note_id = anki.collection.NoteId(note.anki_id if note.anki_id else -1)
+                note_id = anki.notes.NoteId(note.anki_id if note.anki_id else -1)
                 self._collection.get_note(note_id)
             except anki.errors.NotFoundError:
                 found_notes = self._collection.find_notes(note.search_query)
@@ -108,7 +111,7 @@ class AnkiApi:
     def update_note(self, note: Note) -> None:
         """Synchronize changes in notes with Anki"""
         try:
-            note_id = anki.collection.NoteId(note.anki_id if note.anki_id else -1)
+            note_id = anki.notes.NoteId(note.anki_id if note.anki_id else -1)
             anki_note = self._collection.get_note(note_id)
         except anki.errors.NotFoundError:
             raise AnkiApiError(
