@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 from pathlib import Path
@@ -37,6 +38,7 @@ from .models.parser import Parser
 from .models.writer import Writer
 
 ROOT_DIR = Path(__file__).parent.parent.parent.absolute()
+log = logging.getLogger(__name__)
 
 DEFAULT_ANKI_FOLDERS = {
     "win32": r"~\AppData\Roaming\Anki2",
@@ -53,7 +55,6 @@ MD = mistune.create_markdown(
     plugins=["strikethrough", "footnotes", "table", plugin_mathjax],
     escape=parse_str_to_bool(CONFIG.get_option_value("defaults", "escape_html")),
 )
-
 
 # pretty traceback
 install(console=CONSOLE)
@@ -267,9 +268,9 @@ code {
                         "Name": "Card 1",
                         "Front": "{{" + f"{front_field}" + "}}\n",
                         "Back": "{{FrontSide}}\n<hr id=answer>\n"
-                        + "{{"
-                        + f"{back_field}"
-                        + "}}\n",
+                                + "{{"
+                                + f"{back_field}"
+                                + "}}\n",
                     }
                 ],
                 is_cloze=False,
@@ -380,7 +381,8 @@ def list_config_options(ctx, param, value) -> None:
 
 @click.group()
 @click.version_option(version=__version__)
-def cli() -> None:
+@click.option('-v', '--verbose', is_flag=True, help="Enable verbose logging")
+def cli(verbose: bool) -> None:
     """Inka2 - command-line tool for adding flashcards from Markdown files to Anki.
 
     Documentation:\n
@@ -389,7 +391,15 @@ def cli() -> None:
     Github:\n
         https://github.com/sysid/inka2
     """
-    pass
+    log_fmt = "%(asctime)-15s %(levelname)-7s %(message)s"
+    if verbose:
+        logging.basicConfig(format=log_fmt, level=logging.DEBUG, datefmt="%m-%d %H:%M:%S")
+    else:
+        logging.basicConfig(format=log_fmt, level=logging.INFO, datefmt="%m-%d %H:%M:%S")
+    logging.getLogger("requests").setLevel(logging.INFO)
+    logging.getLogger("urllib3").setLevel(logging.INFO)
+    log.debug("Logging enabled.")
+    log.debug(CONFIG.get_formatted_options())
 
 
 @cli.command()
@@ -531,6 +541,7 @@ def collect(
     anki_path = CONFIG.get_option_value("anki", "path")
     if not anki_path:
         anki_path = os.path.expanduser(DEFAULT_ANKI_FOLDERS[sys.platform])
+    log.debug(f"Anki path: {anki_path}")
 
     # Create instance of AnkiApi. Throws an error if path to anki is incorrect
     try:
@@ -542,6 +553,7 @@ def collect(
     # Get name of profile and select it in Anki
     print_action("Getting profile...")
     profile = get_profile(prompt, anki_api)
+    log.debug(f"{profile=}")
 
     # Load collection of a profile
     print_action("Loading profile...")
@@ -565,6 +577,7 @@ def collect(
     if not files:
         print_sub_warning("Markdown files not found!")
         sys.exit(0)
+    log.debug(f"{files=}")
 
     # Perform action on notes from each file
     hasher = Hasher(HASHES_PATH)

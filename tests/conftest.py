@@ -15,6 +15,12 @@ from inka2.models.anki_media import AnkiMedia
 from inka2.models.config import Config
 from inka2.models.parser import Parser
 
+import logging
+
+log_fmt = r'%(asctime)-15s %(levelname)s %(name)s %(funcName)s:%(lineno)d %(message)s'
+datefmt = '%Y-%m-%d %H:%M:%S'
+logging.basicConfig(format=log_fmt, level=logging.DEBUG, datefmt=datefmt)
+
 DEFAULT_ANKI_FOLDERS = {
     "win32": r"~\AppData\Roaming\Anki2",
     "linux": "~/.local/share/Anki2",

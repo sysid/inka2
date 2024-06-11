@@ -18,10 +18,11 @@ DEVELOP: ## ############################################################
 init:  ## init
 	pkill anki
 	@rm -f *.db
-	@rm -fr '/Users/Q187392/Library/Application Support/Anki2/User 1'
-	@rm -fr './tests/resources/anki_data/User 1'
+	rm -fr '/Users/Q187392/Library/Application Support/Anki2/User 1'
+	rm -fr './tests/resources/anki_data/User 1'
 	rm -fr ~/xxx
 	mkdir -p ~/xxx
+	@cp -v tests/resources/test_inka_data_init.md tests/resources/test_inka_data.md
 
 .PHONY: anki
 anki:  ## anki

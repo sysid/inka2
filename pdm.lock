@@ -26,6 +26,7 @@ files = [
     {file = "anki-24.04-cp39-abi3-macosx_10_13_x86_64.whl", hash = "sha256:ac2c0cc3b88db52140b1be8e6480153fc09790665d240c57f1803c13e2e5c5e8"},
     {file = "anki-24.04-cp39-abi3-macosx_11_0_arm64.whl", hash = "sha256:c50ca3f0d3b472d8c61735f1bdee722d91a669cf76ee1acdf1b2d5787ddb69e0"},
     {file = "anki-24.04-cp39-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:cfc89e1608c9817f1f3fea156e64a7e8824dbf88e7dabc7d49c5f1ff63d8361c"},
+    {file = "anki-24.04-cp39-abi3-manylinux_2_31_aarch64.whl", hash = "sha256:8a18dd9992910c73d3bdaf7cbe2ca2c73e7439d94c453ddc1e4d97a227576072"},
     {file = "anki-24.04-cp39-abi3-win_amd64.whl", hash = "sha256:82b99f0a9abc5dc0c9b21868db88d2a0fd93b6a29a7b6f6c23a76eb33705b707"},
 ]
 
