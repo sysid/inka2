@@ -27,6 +27,11 @@ classifiers = [
     "Programming Language :: Python :: 3 :: Only",
 ]
 license = { text = "GPLv3" }
+homepage = "https://github.com/sysid/inka2"
+
+[project.urls]
+Source = "https://github.com/sysid/inka2"
+Documentation = "https://github.com/sysid/inka2/wiki/Creating-cards"
 
 requires-python = ">=3.10"
 dependencies = [
