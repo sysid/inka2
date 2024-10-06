@@ -268,9 +268,9 @@ code {
                         "Name": "Card 1",
                         "Front": "{{" + f"{front_field}" + "}}\n",
                         "Back": "{{FrontSide}}\n<hr id=answer>\n"
-                                + "{{"
-                                + f"{back_field}"
-                                + "}}\n",
+                        + "{{"
+                        + f"{back_field}"
+                        + "}}\n",
                     }
                 ],
                 is_cloze=False,
@@ -381,7 +381,7 @@ def list_config_options(ctx, param, value) -> None:
 
 @click.group()
 @click.version_option(version=__version__)
-@click.option('-v', '--verbose', is_flag=True, help="Enable verbose logging")
+@click.option("-v", "--verbose", is_flag=True, help="Enable verbose logging")
 def cli(verbose: bool) -> None:
     """Inka2 - command-line tool for adding flashcards from Markdown files to Anki.
 
@@ -393,9 +393,13 @@ def cli(verbose: bool) -> None:
     """
     log_fmt = "%(asctime)-15s %(levelname)-7s %(message)s"
     if verbose:
-        logging.basicConfig(format=log_fmt, level=logging.DEBUG, datefmt="%m-%d %H:%M:%S")
+        logging.basicConfig(
+            format=log_fmt, level=logging.DEBUG, datefmt="%m-%d %H:%M:%S"
+        )
     else:
-        logging.basicConfig(format=log_fmt, level=logging.INFO, datefmt="%m-%d %H:%M:%S")
+        logging.basicConfig(
+            format=log_fmt, level=logging.INFO, datefmt="%m-%d %H:%M:%S"
+        )
     logging.getLogger("requests").setLevel(logging.INFO)
     logging.getLogger("urllib3").setLevel(logging.INFO)
     log.debug("Logging enabled.")
