@@ -63,7 +63,7 @@ install:  uninstall ## install
 install-edit:  uninstall ## install-edit
 	@pipx install -e .
 	#@pipx install inka2
-	#@cp -vf $(HOME)/dev/s/private/other-anki/inka/config.tw.ini $(HOME)/.local/pipx/venvs/inka2/lib/python3.12/site-packages/inka2/config.ini
+	@cp -vf $(HOME)/dev/s/private/other-anki/inka/config.tw.ini ./src/inka2/config.ini
 
 .PHONY: uninstall
 uninstall:  ## uninstall

@@ -1,0 +1,18 @@
+[defaults]
+profile = 
+deck = Default
+folder = 
+escape_html = False
+add_filename = False
+
+[anki]
+path = 
+basic_type = Inka Basic
+front_field = Front
+back_field = Back
+cloze_type = Inka Cloze
+cloze_field = Text
+
+[highlight]
+style = monokai
+
