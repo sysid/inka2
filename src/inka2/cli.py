@@ -25,7 +25,7 @@ from .helpers import (
     print_sub_warning,
     print_warning,
 )
-from .mistune_plugins.mathjax import plugin_mathjax
+from .mistune_plugins.mathjax3 import plugin_mathjax3
 from .models import converter, highlighter, img_handler
 from .models.anki_api import AnkiApi
 from .models.anki_media import AnkiMedia
@@ -52,7 +52,7 @@ HASHES_PATH = f"{os.path.dirname(__file__)}/hashes.json"
 
 CONFIG = Config(CONFIG_PATH)
 MD = mistune.create_markdown(
-    plugins=["strikethrough", "footnotes", "table", plugin_mathjax],
+    plugins=["strikethrough", "footnotes", "table", plugin_mathjax3],
     escape=parse_str_to_bool(CONFIG.get_option_value("defaults", "escape_html")),
 )
 

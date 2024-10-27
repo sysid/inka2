@@ -35,14 +35,14 @@ homepage = "https://github.com/sysid/inka2"
 
 requires-python = ">=3.10"
 dependencies = [
-    "mistune==2.0.5",
+    "mistune",
     "requests",
     "click",
     "rich",
     "aqt",
     "anki",
     "pyqt6",
-    "pyqt6-webengine",
+    "pyqt6-webengine",  # TODO: necessary?
     "pillow",
     "mypy",
     "isort",

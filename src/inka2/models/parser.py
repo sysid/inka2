@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import List, Optional, Union
 
 from ..helpers import parse_str_to_bool
-from ..mistune_plugins.mathjax import BLOCK_MATH
+from ..mistune_plugins.mathjax3 import BLOCK_MATH
 from .config import Config
 from .notes.basic_note import BasicNote
 from .notes.cloze_note import ClozeNote
