@@ -10,7 +10,7 @@ from PIL import Image as Img
 
 from inka2.cli import ROOT_DIR
 from inka2.helpers import parse_str_to_bool
-from inka2.mistune_plugins.mathjax import plugin_mathjax
+from inka2.mistune_plugins.mathjax3 import plugin_mathjax3
 from inka2.models.anki_api import AnkiApi
 from inka2.models.anki_media import AnkiMedia
 from inka2.models.config import Config
@@ -141,7 +141,7 @@ def config_add_filename() -> Config:
 @pytest.fixture
 def md(config_add_filename):
     return mistune.create_markdown(
-        plugins=["strikethrough", "footnotes", "table", plugin_mathjax],
+        plugins=["strikethrough", "footnotes", "table", plugin_mathjax3],
         escape=parse_str_to_bool(
             config_add_filename.get_option_value("defaults", "escape_html")
         ),

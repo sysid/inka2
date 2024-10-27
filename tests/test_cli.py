@@ -31,7 +31,7 @@ def test_get_notes_from_file():
 
 @pytest.mark.integration
 def test_create_notes_from_files():
-    """
+    """ creates anki card in default location "User 1"
     make init
     """
     UNDER_TEST = f"{ROOT_DIR}/tests/resources/test_inka_data.md"

@@ -3,7 +3,7 @@ from typing import Iterable, Iterator, Match, Pattern, Tuple, Union
 
 import mistune  # type: ignore
 
-from ..mistune_plugins.mathjax import BLOCK_MATH, INLINE_MATH
+from ..mistune_plugins.mathjax3 import BLOCK_MATH, INLINE_MATH
 from .notes.basic_note import Note
 from .notes.cloze_note import ClozeNote
 

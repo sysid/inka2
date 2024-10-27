@@ -27,6 +27,7 @@ init:  ## init
 .PHONY: anki
 anki:  ## anki
 	pkill anki
+	# specify base folder with -b
 	open /Applications/Anki.app --args -b $(PROJ_DIR)/tests/resources/anki_data
 
 .PHONY: test-unit
