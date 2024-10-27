@@ -248,7 +248,7 @@ test_cases = {
         ),
         BasicNote(
             front_md="Question?\n\nMore info on question.\n\nAnd even more!",
-            back_md="Answer\n\n\n\nAdditional info\n\nAnd more to it",
+            back_md="Answer\n\nAdditional info\nAnd more to it",
             tags=["one", "two-three"],
             deck_name="Abraham",
         ),

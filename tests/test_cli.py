@@ -39,4 +39,3 @@ def test_create_notes_from_files():
     result = runner.invoke(cli, ["-v", "collect", UNDER_TEST])
     assert result.exit_code == 0
     print(result.output)
-    _ = None
