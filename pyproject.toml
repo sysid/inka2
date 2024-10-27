@@ -29,9 +29,9 @@ classifiers = [
 license = { text = "GPLv3" }
 homepage = "https://github.com/sysid/inka2"
 
-[project.urls]
-Source = "https://github.com/sysid/inka2"
-Documentation = "https://github.com/sysid/inka2/wiki/Creating-cards"
+#[project.urls]
+#Source = "https://github.com/sysid/inka2"
+#Documentation = "https://github.com/sysid/inka2/wiki/Creating-cards"
 
 requires-python = ">=3.10"
 dependencies = [
@@ -146,5 +146,5 @@ dev = [
     "tox",
     "types-click",
     "types-requests",
-    "ruff>=0.2.2",
+    "ruff",
 ]
