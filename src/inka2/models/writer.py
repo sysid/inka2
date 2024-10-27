@@ -110,7 +110,8 @@ class Writer:
 
             # Create new answer field (with '>')
             current_answer = Parser.get_answer(note_string).rstrip()
-            lines = note.raw_back_md.replace("\n\n", "\n").splitlines()
+            # lines = note.raw_back_md.replace("\n\n", "\n").splitlines()
+            lines = note.raw_back_md.splitlines()
             new_answer = "\n".join(map(lambda line: f"> {line}", lines))
 
             # Substitute answer field
