@@ -1,7 +1,3 @@
-[build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
-
 [project]
 # PEP 621 project metadata
 # See https://www.python.org/dev/peps/pep-0621/
@@ -9,6 +5,8 @@ name = "inka2"
 version = "3.0.2"
 description = "Command-line tool for adding flashcards from Markdown files to Anki"
 readme = "README.md"
+license = { text = "GPLv3" }
+requires-python = ">=3.10"
 authors = [
     { name = "sysid", email = "sysid@gmx.de" },
     { name = "Kirill Salnikov", email = "salnikov.k54@gmail.com" },
@@ -26,44 +24,58 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3 :: Only",
 ]
-license = { text = "GPLv3" }
-homepage = "https://github.com/sysid/inka2"
 
-[project.urls]
-Source = "https://github.com/sysid/inka2"
-Documentation = "https://github.com/sysid/inka2/wiki/Creating-cards"
-
-requires-python = ">=3.10"
 dependencies = [
-    "mistune",
-    "requests",
-    "click",
-    "rich",
-    "aqt",
-    "anki",
-    "pyqt6",
-    "pyqt6-webengine",  # TODO: necessary?
-    "pillow",
-    "mypy",
-    "isort",
-    "black",
+    "anki>=24.11",
+    "aqt>=24.11",
+    "click>=8.1.8",
+    "isort>=5.13.2",
+    "mistune>=3.1.0",
+    "mypy>=1.14.1",
+    "pillow>=11.1.0",
+    "pyqt6>=6.8.0",
+    "pyqt6-webengine>=6.8.0",
+    "requests>=2.32.3",
+    "rich>=13.9.4",
+]
+
+[dependency-groups]  # new standard, included by default
+dev = [
+    "build>=1.2.2.post1",
+    "bump2version>=1.0.1",
+    "coverage>=7.6.10",
+    "ipython>=8.31.0",
+    "isort>=5.13.2",
+    "mypy>=1.14.1",
+    "pre-commit>=4.0.1",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "pytest-mock>=3.14.0",
+    "ruff>=0.9.1",
+    "tox>=4.23.2",
+    "types-click>=7.1.8",
+    "types-requests>=2.32.0.20241016",
 ]
 
 [project.scripts]
 inka2 = "inka2.cli:cli"
 
+[tool.uv]
+managed = true  # esable automatic locking and syncing of the project.
+package = true  # install into project env
+
+[project.urls]
+Source = "https://github.com/sysid/inka2"
+Documentation = "https://github.com/sysid/inka2/wiki/Creating-cards"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
 markers = [
     "integration: marks tests as integration tests",
 ]
-
-[tool.isort]
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-use_parentheses = true
-line_length = 88
 
 [tool.mypy]
 ignore_missing_imports = false
@@ -125,26 +137,48 @@ filename = "pyproject.toml"
 [[tool.bumpversion.files]]
 filename = "src/inka2/__init__.py"
 
-[tool.pdm]
-[[tool.pdm.source]]
-url = "https://pypi.org/simple"
-verify_ssl = true
-name = "pypi"
-
-[tool.pdm.dev-dependencies]
-dev = [
+[tool.ruff]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
     "build",
-    "bump2version",
-    "coverage",
-    "ipython",
-    "isort",
-    "mypy>=1.8.0",
-    "pre-commit",
-    "pytest",
-    "pytest-cov",
-    "pytest-mock",
-    "tox",
-    "types-click",
-    "types-requests",
-    "ruff",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
 ]
+line-length = 88
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+ignore = []
+fixable = ["ALL"]
+unfixable = []
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"

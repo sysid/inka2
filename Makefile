@@ -52,7 +52,8 @@ test_interactive_create_notes_from_files: init   ## test_interactive_create_note
 BUILDING:  ## ############################################################
 .PHONY: publish
 publish:  ## publish
-	pdm publish
+	@echo "upload to Pypi"
+	twine upload --verbose dist/*
 
 .PHONY: build
 build:  ## build
@@ -61,14 +62,13 @@ build:  ## build
 
 .PHONY: install
 install:  uninstall ## install
-	@#pipx install -e .
-	@pipx install inka2
+	uv tool install inka2
 	@cp -vf $(HOME)/dev/s/private/other-anki/inka/config.tw.ini $(HOME)/.local/pipx/venvs/inka2/lib/python3.12/site-packages/inka2/config.ini
 
 .PHONY: install-edit
-install-edit:  uninstall ## install-edit
-	@pipx install -e .
-	#@pipx install inka2
+install-edit: uninstall  ## pipx install-edit
+	uv tool install -e .
+	inka2 --install-completion bash
 	@cp -vf $(HOME)/dev/s/private/other-anki/inka/config.tw.ini ./src/inka2/config.ini  # get the prod config into editable install
 
 .PHONY: uninstall
