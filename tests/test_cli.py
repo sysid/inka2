@@ -30,7 +30,7 @@ def test_get_notes_from_file():
 
 
 @pytest.mark.integration
-def test_create_notes_from_files():
+def test_interactive_create_notes_from_files():
     """ creates anki card in default location "User 1"
     make init
     """

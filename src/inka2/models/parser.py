@@ -245,6 +245,6 @@ class Parser:
         # cleaned_answer = re.sub(r"```[\s\S]*?```", replace_newlines, cleaned_answer)
 
         # change newlines in math blocks
-        cleaned_answer = re.sub(BLOCK_MATH, replace_newlines, cleaned_answer)
+        # cleaned_answer = re.sub(BLOCK_MATH, replace_newlines, cleaned_answer)
 
         return cleaned_answer

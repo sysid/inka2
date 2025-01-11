@@ -23,6 +23,8 @@ init:  ## init
 	rm -fr ~/xxx
 	mkdir -p ~/xxx
 	@cp -v tests/resources/test_inka_data_init.md tests/resources/test_inka_data.md
+	@cp -v ./src/inka2/config.ini.original ./src/inka2/config.ini
+	@echo "Using default configuration!"
 
 .PHONY: anki
 anki:  ## anki
@@ -39,6 +41,10 @@ test: init  test-unit  ## run all tests
 
 .PHONY: test-cicd
 test-cicd: test-unit  ## run cicd tsts
+
+.PHONY: test_interactive_create_notes_from_files
+test_interactive_create_notes_from_files: init   ## test_interactive_create_notes_from_files: expect Anki to show one rendered card
+	RUN_ENV=local python -m pytest -s tests/test_cli.py::test_interactive_create_notes_from_files --no-summary
 
 
 ################################################################################
@@ -63,7 +69,7 @@ install:  uninstall ## install
 install-edit:  uninstall ## install-edit
 	@pipx install -e .
 	#@pipx install inka2
-	@cp -vf $(HOME)/dev/s/private/other-anki/inka/config.tw.ini ./src/inka2/config.ini
+	@cp -vf $(HOME)/dev/s/private/other-anki/inka/config.tw.ini ./src/inka2/config.ini  # get the prod config into editable install
 
 .PHONY: uninstall
 uninstall:  ## uninstall
