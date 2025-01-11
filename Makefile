@@ -11,6 +11,13 @@ app_root := $(if $(PROJ_DIR),$(PROJ_DIR),$(CURDIR))
 pkg_src =  $(app_root)/src/inka2
 tests_src = $(app_root)/tests
 
+.PHONY: all
+all: clean build install-edit  ## Build and publish
+	@echo "--------------------------------------------------------------------------------"
+	@echo "-M- building and distributing"
+	@echo "--------------------------------------------------------------------------------"
+
+
 ################################################################################
 # Developing \
 DEVELOP: ## ############################################################
@@ -68,12 +75,13 @@ install:  uninstall ## install
 .PHONY: install-edit
 install-edit: uninstall  ## pipx install-edit
 	uv tool install -e .
-	inka2 --install-completion bash
+	#pipx install -e .
 	@cp -vf $(HOME)/dev/s/private/other-anki/inka/config.tw.ini ./src/inka2/config.ini  # get the prod config into editable install
 
 .PHONY: uninstall
 uninstall:  ## uninstall
-	pipx uninstall inka2
+	-pipx uninstall inka2
+	-uv tool uninstall inka2
 
 .PHONY: bump-major
 bump-major:  ## bump-major, tag and push

@@ -35,3 +35,8 @@ This does work (without numbering):
 > $$
 > \text{score} = \text{bm25_weight} \times \frac{1}{\text{index} + 1}
 > $$
+
+
+
+## aqt
+https://forums.ankiweb.net/t/pip-install-aqt-leads-to-x86-architecture-error-upon-import/43051
