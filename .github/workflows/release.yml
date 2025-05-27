@@ -23,7 +23,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      GH_HOST: "atc-github.azure.cloud.bmw"
+      GH_HOST: "github.com"
 #      GH_ENTERPRISE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
