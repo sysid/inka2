@@ -42,6 +42,7 @@ dependencies = [
 [dependency-groups]  # new standard, included by default
 dev = [
     "build>=1.2.2.post1",
+    "bump-my-version>=1.1.4",
     "bump2version>=1.0.1",
     "coverage>=7.6.10",
     "ipython>=8.31.0",
