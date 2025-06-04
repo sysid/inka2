@@ -23,7 +23,7 @@ all: clean build install-edit  ## Build and publish
 DEVELOP: ## ############################################################
 .PHONY: init
 init:  ## init
-	pkill anki
+	-pkill anki
 	@rm -f *.db
 	rm -fr '/Users/Q187392/Library/Application Support/Anki2/User 1'
 	rm -fr './tests/resources/anki_data/User 1'

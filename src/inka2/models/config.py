@@ -44,7 +44,7 @@ class Config:
                 "deck": self._default_deck,
                 "folder": self._default_folder,
                 "escape_html": self._default_escape_html,
-                "add_filename": self._default_escape_html,
+                "add_filename": self._add_filename,
             },
             "anki": {
                 "path": self._default_path,
