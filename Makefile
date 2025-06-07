@@ -25,11 +25,13 @@ DEVELOP: ## ############################################################
 init:  ## init
 	-pkill anki
 	@rm -f *.db
-	rm -fr '/Users/Q187392/Library/Application Support/Anki2/User 1'
+	rm -fr "$(HOME)/Library/Application Support/Anki2/User 1"
 	rm -fr './tests/resources/anki_data/User 1'
 	rm -fr ~/xxx
 	mkdir -p ~/xxx
 	@cp -v tests/resources/test_inka_data_init.md tests/resources/test_inka_data.md
+	@cp -v tests/resources/math_example_init.md tests/resources/math_example.md
+	@cp -v tests/resources/math_example2_init.md tests/resourcee/math_example2.md
 	@cp -v ./src/inka2/config.ini.original ./src/inka2/config.ini
 	@echo "Using default configuration!"
 
