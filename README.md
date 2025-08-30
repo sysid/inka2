@@ -49,6 +49,11 @@ can see now.
 - [Code highlight](https://github.com/sysid/inka2/wiki/Code-highlight)
 - [Hashing (for better performance)](https://github.com/sysid/inka2/wiki/Hashing)
 
+### nvim Integration
+
+For better card management in your markdown files the
+[inka-nvim](https://github.com/sysid/inka-nvim) plugin might be helpful.
+
 ## Usage
 
 ### Creating Cards
