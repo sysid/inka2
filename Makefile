@@ -13,7 +13,7 @@ pkg_src  = $(app_root)/src/$(PACKAGE_NAME)
 tests_src = $(app_root)/tests
 
 .PHONY: all
-all: clean build install-edit  ## Build and install-local
+all: clean build publish  ## Build and publish
 	@echo "--------------------------------------------------------------------------------"
 	@echo "-M- building and distributing"
 	@echo "--------------------------------------------------------------------------------"

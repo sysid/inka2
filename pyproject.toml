@@ -5,7 +5,7 @@ name = "inka2"
 version = "3.2.1"
 description = "Command-line tool for adding flashcards from Markdown files to Anki"
 readme = "README.md"
-license = { text = "GPLv3" }
+license = "GPL-3.0-only"
 requires-python = ">=3.10"
 authors = [
     { name = "sysid", email = "sysid@gmx.de" },
@@ -17,7 +17,6 @@ classifiers = [
     "Intended Audience :: Education",
     "Topic :: Education :: Computer Aided Instruction (CAI)",
     "Topic :: Text Processing :: Markup :: Markdown",
-    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
