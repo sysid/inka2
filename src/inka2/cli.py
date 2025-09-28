@@ -240,7 +240,7 @@ def handle_note_types(anki_api: AnkiApi) -> None:
 
 code {
   background-color: #232831;
-  color: #fa4545;
+  color: """ + CONFIG.get_option_value_or_default("highlight", "inline_code_color", "#fa4545") + """;
   border: 1px solid #030a1420;
   box-shadow: 0 0.1em #00000010;
   padding: 1px 2px;

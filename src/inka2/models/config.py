@@ -19,6 +19,7 @@ class Config:
     _default_cloze_type = "Inka Cloze"
     _default_cloze_field = "Text"
     _default_highlight_style = "monokai"
+    _default_inline_code_color = "#fa4545"
     _default_escape_html = False
     _add_filename = False
 
@@ -56,6 +57,7 @@ class Config:
             },
             "highlight": {
                 "style": self._default_highlight_style,
+                "inline_code_color": self._default_inline_code_color,
             },
         }
 
@@ -75,9 +77,16 @@ class Config:
         """Get value of the config option"""
         return self._config[section][key]
 
+    def get_option_value_or_default(self, section: str, key: str, default: str) -> str:
+        """Get value of the config option, or return default if not found"""
+        try:
+            return self._config[section][key]
+        except KeyError:
+            return default
+
     def update_option_value(self, section: str, key: str, new_value: str):
         """Update value of the config option"""
-        if key not in self._config[section]:
+        if section not in self._config or key not in self._config[section]:
             raise KeyError
 
         self._config[section][key] = new_value

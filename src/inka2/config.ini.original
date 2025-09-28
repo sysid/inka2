@@ -15,4 +15,5 @@ cloze_field = Text
 
 [highlight]
 style = monokai
+inline_code_color = #fa4545
 

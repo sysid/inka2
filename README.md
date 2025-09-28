@@ -46,7 +46,7 @@ can see now.
 - [Configuration via config file](https://github.com/sysid/inka2/wiki/Config)
 - [Images support](https://github.com/sysid/inka2/wiki/Creating-cards#images)
 - [MathJax support](https://github.com/sysid/inka2/wiki/Mathjax)
-- [Code highlight](https://github.com/sysid/inka2/wiki/Code-highlight)
+- [Code highlight](https://github.com/sysid/inka2/wiki/Code-highlight) with customizable inline code styling
 - [Hashing (for better performance)](https://github.com/sysid/inka2/wiki/Hashing)
 
 ### nvim Integration
@@ -124,3 +124,19 @@ inka2 collect path/to/cards.md path/to/folder
 ```
 
 You can find more information on the [documentation page](https://github.com/sysid/inka2/wiki/Adding-cards-to-Anki).
+
+### Configuration
+
+**inka2** can be customized via a `config.ini` file. Key configuration options include:
+
+#### Styling Options
+
+```ini
+[highlight]
+style = monokai                    # Syntax highlighting theme
+inline_code_color = #8b5cf6        # Inline code color (default: #fa4545)
+```
+
+The `inline_code_color` option allows you to customize the color of inline code elements in your Anki cards. You can use any valid CSS color value (hex, rgb, named colors, etc.).
+
+For complete configuration options, see the [Config documentation](https://github.com/sysid/inka2/wiki/Config).
