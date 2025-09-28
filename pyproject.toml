@@ -2,7 +2,7 @@
 # PEP 621 project metadata
 # See https://www.python.org/dev/peps/pep-0621/
 name = "inka2"
-version = "3.2.0"
+version = "3.2.1"
 description = "Command-line tool for adding flashcards from Markdown files to Anki"
 readme = "README.md"
 license = { text = "GPLv3" }
@@ -99,7 +99,7 @@ skip_covered = true
 fail_under = 60
 
 [tool.bumpversion]
-current_version = "3.2.0"
+current_version = "3.2.1"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = ["{major}.{minor}.{patch}"]
 search = "{current_version}"
