@@ -6,13 +6,14 @@ BUILDDIR      = build
 MAKE          = make
 VERSION       = $(shell cat VERSION)
 IMAGE_NAME = inka2
+PACKAGE_NAME  = inka2
 
 app_root := $(if $(PROJ_DIR),$(PROJ_DIR),$(CURDIR))
-pkg_src =  $(app_root)/src/inka2
+pkg_src  = $(app_root)/src/$(PACKAGE_NAME)
 tests_src = $(app_root)/tests
 
 .PHONY: all
-all: clean build install-edit  ## Build and publish
+all: clean build install-edit  ## Build and install-local
 	@echo "--------------------------------------------------------------------------------"
 	@echo "-M- building and distributing"
 	@echo "--------------------------------------------------------------------------------"
@@ -85,37 +86,37 @@ uninstall:  ## uninstall
 	-pipx uninstall inka2
 	-uv tool uninstall inka2
 
-.PHONY: bump-major
-bump-major:  ## bump-major, tag and push
-	bump-my-version bump --commit --tag major
-	git push
-	git push --tags
-	@$(MAKE) create-release
-
 .PHONY: bump-minor
-bump-minor:  ## bump-minor, tag and push
+bump-minor: check-github-token  ## bump-minor, tag and push
 	bump-my-version bump --commit --tag minor
 	git push
 	git push --tags
 	@$(MAKE) create-release
 
 .PHONY: bump-patch
-bump-patch:  ## bump-patch, tag and push
+bump-patch: check-github-token  ## bump-patch, tag and push
 	bump-my-version bump --commit --tag patch
 	git push
 	git push --tags
 	@$(MAKE) create-release
 
 .PHONY: create-release
-create-release:  ## create a release on GitHub via the gh cli
-	@if command -v gh version &>/dev/null; then \
+create-release: check-github-token  ## create a release on GitHub via the gh cli
+	@if ! command -v gh &>/dev/null; then \
+		echo "You do not have the GitHub CLI (gh) installed. Please create the release manually."; \
+		exit 1; \
+	else \
 		echo "Creating GitHub release for v$(VERSION)"; \
 		gh release create "v$(VERSION)" --generate-notes; \
-	else \
-		echo "You do not have the github-cli installed. Please create release from the repo manually."; \
-		exit 1; \
 	fi
 
+.PHONY: check-github-token
+check-github-token:  ## Check if GITHUB_TOKEN is set
+	@if [ -z "$$GITHUB_TOKEN" ]; then \
+		echo "GITHUB_TOKEN is not set. Please export your GitHub token before running this command."; \
+		exit 1; \
+	fi
+	@echo "GITHUB_TOKEN is set"
 
 ################################################################################
 # Code Quality \

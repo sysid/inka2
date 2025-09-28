@@ -27,6 +27,7 @@ def default_config_string():
         "\n"
         "[highlight]\n"
         "style = monokai\n"
+        "inline_code_color = #fa4545\n"
         "\n"
     )
 
