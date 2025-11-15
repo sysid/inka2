@@ -5,6 +5,12 @@
 [![Tests CI](https://img.shields.io/github/actions/workflow/status/sysid/inka2/test.yml?branch=main)](https://github.com/sysid/inka2/actions/workflows/test.yml)
 [![Codecov](https://codecov.io/gh/sysid/inka2/branch/main/graph/badge.svg?token=8IL9MN4FK5)](https://codecov.io/gh/sysid/inka2)
 
+
+**I am now migrating to a much more powerfull drop-in replacement: [ankiview](https://github.com/sysid/ankiview)**
+
+---
+
+
 Automatically extract flashcards from Markdown to [Anki](https://apps.ankiweb.net/).
 > too useful to let it be unsupported :-)
 
